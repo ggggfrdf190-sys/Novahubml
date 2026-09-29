@@ -5,7 +5,7 @@ if not ({
   return
 end
 local L_2_ = {}
-local L_3_ = loadstring(game:HttpGet("https://raw.githubusercontent.com/Absolbite/Library/refs/heads/main/V8", true))():MakeWindow({
+local L_3_ = loadstring(game:HttpGet("https://raw.githubusercontent.com/ggggfrdf190-sys/Novahubml/refs/heads/main/Novahml", true))():MakeWindow({
   Name = "Nova Hub",
   SubTitle = "Muscle Legends",
   SaveFolder = "MuscleLegends"
