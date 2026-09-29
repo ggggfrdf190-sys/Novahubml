@@ -1,0 +1,3259 @@
+local L_1_ = unpack or table.unpack
+if not ({
+  ["3623096087"] = true
+})[tostring(game.PlaceId)] then
+  return
+end
+local L_2_ = {}
+local L_3_ = loadstring(game:HttpGet("https://raw.githubusercontent.com/Absolbite/Library/refs/heads/main/V8", true))():MakeWindow({
+  Name = "Nova Hub",
+  SubTitle = "Muscle Legends",
+  SaveFolder = "MuscleLegends"
+})
+local L_4_ = L_3_.AddMinimizeButton
+local L_5_ = {
+  CornerRadius = UDim.new(0.5, 0)
+}
+local L_6_ = UDim2.fromScale(0.05, 0.5)
+L_4_(L_3_, {
+  Flag = "my_btn",
+  Size = 35,
+  Transparency = 0.1,
+  Image = "",
+  Corner = L_5_,
+})
+_G.Window = L_3_
+_G.MainTab = L_3_:MakeTab({
+  Title = "ã€Œ  Main  ã€"
+})
+_G.StuffTab = L_3_:MakeTab({
+  Title = "ã€Œ  Stuff  ã€"
+})
+_G.FarmTab = L_3_:MakeTab({
+  Title = "ã€Œ  Farm  ã€"
+})
+_G.RebirthTab = L_3_:MakeTab({
+  Title = "ã€Œ  Rebirth  ã€"
+})
+_G.KillingTab = L_3_:MakeTab({
+  Title = "ã€Œ  Killing  ã€"
+})
+_G.CrystalsTab = L_3_:MakeTab({
+  Title = "ã€Œ  Crystal  ã€"
+})
+_G.TeleportTab = L_3_:MakeTab({
+  Title = "ã€Œ  Teleport  ã€"
+})
+_G.StatsTab = L_3_:MakeTab({
+  Title = "ã€Œ  Stats  ã€"
+})
+_G.MiscTab = L_3_:MakeTab({
+  Title = "ã€Œ  Misc  ã€"
+})
+_G.SettingsTab = L_3_:MakeTab({
+  Title = "ã€Œ  Settings  ã€"
+})
+_G.PlayerSection = _G.MainTab:AddSection({
+  Name = "LocalPlayer",
+  Open = false
+})
+L_2_[1] = "2"
+_G.PlayerSection:AddTextBox({
+  Title = "Size Changer",
+  Placeholder = "Type here...",
+  Default = "2",
+  Flag = "SizeChanger",
+  Callback = function(L_156_arg0)
+    L_2_[1] = L_156_arg0
+    if _G.AutoSize then
+      game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", (tonumber(L_2_[1])))
+    end
+  end
+})
+_G.PlayerSection:AddToggle({
+  Title = "Set Size",
+  Default = false,
+  Flag = "AutoSize",
+  Callback = function(L_157_arg0)
+    _G.AutoSize = L_157_arg0
+    while _G.AutoSize do
+      game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", (tonumber(L_2_[1])))
+      task.wait(0.1)
+    end
+  end
+})
+L_2_[2] = "125"
+_G.PlayerSection:AddTextBox({
+  Title = "Speed Changer",
+  Placeholder = "Enter Speed",
+  Default = "125",
+  Flag = "SpeedChanger",
+  Callback = function(L_158_arg0)
+    L_2_[2] = L_158_arg0
+    if _G.AutoSpeed and (game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")) then
+      game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(L_2_[2])
+    end
+  end
+})
+_G.PlayerSection:AddToggle({
+  Title = "Set Speed",
+  Default = false,
+  Flag = "AutoSpeed",
+  Callback = function(L_159_arg0)
+    _G.AutoSpeed = L_159_arg0
+    while _G.AutoSpeed do
+      if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(L_2_[2])
+      end
+      task.wait()
+    end
+  end
+})
+_G.PlayerSection:AddToggle({
+  Title = "NoClip",
+  Default = false,
+  Flag = "NoClip",
+  Callback = function(L_160_arg0)
+    local L_161_ = game:GetService("RunService")
+    local L_162_ = game:GetService("Players").LocalPlayer
+    if L_160_arg0 then
+      getgenv().noclipConnection = L_161_.Stepped:Connect(function()
+        for L_163_forvar0, L_164_forvar1 in pairs(L_162_.Character:GetDescendants()) do
+          if L_164_forvar1:IsA("BasePart") then
+            L_164_forvar1.CanCollide = false
+          end
+        end
+      end)
+      return
+    end
+    if getgenv().noclipConnection then
+      getgenv().noclipConnection:Disconnect()
+    end
+  end
+})
+_G.PlayerSection:AddToggle({
+  Title = "Infinite Jump",
+  Default = false,
+  Flag = "InfiniteJump",
+  Callback = function(L_165_arg0)
+    _G.InfiniteJump = L_165_arg0
+    local L_166_ = game:GetService("Players").LocalPlayer
+    local L_167_ = game:GetService("UserInputService")
+    if L_165_arg0 then
+      if not getgenv().infiniteJumpConnection then
+        getgenv().infiniteJumpConnection = L_167_.JumpRequest:Connect(function()
+          if _G.InfiniteJump then
+            L_166_.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+          end
+        end)
+        return
+      end
+    elseif getgenv().infiniteJumpConnection then
+      getgenv().infiniteJumpConnection:Disconnect()
+      getgenv().infiniteJumpConnection = nil
+    end
+  end
+})
+game.Players.LocalPlayer.CharacterAdded:Connect(function(L_168_arg0)
+  if _G.AutoSpeed then
+    L_168_arg0:WaitForChild("Humanoid").WalkSpeed = tonumber(L_2_[2])
+  end
+end)
+_G.PlayerSection:AddButton({
+  Title = "Free AutoLift Gamepass",
+  Callback = function()
+    local L_169_ = game:GetService("ReplicatedStorage").gamepassIds
+    local L_170_ = game:GetService("Players").LocalPlayer
+    for L_171_forvar0, L_172_forvar1 in pairs(L_169_:GetChildren()) do
+      local L_173_ = Instance.new("IntValue")
+      L_173_.Name = L_172_forvar1.Name
+      L_173_.Value = L_172_forvar1.Value
+      L_173_.Parent = L_170_.ownedGamepasses
+    end
+  end
+})
+_G.PlayerSection:AddButton({
+  Title = "Redeem All Codes",
+  Callback = function()
+    local L_174_ = {
+      "mightygems2500",
+      "ultimate250",
+      "spacegems50",
+      "megalift50",
+      "speedy50",
+      "epicreward500",
+      "MillionWarriors",
+      "frostgems10",
+      "Musclestorm50",
+      "Skyagility50",
+      "galaxycrystal50",
+      "supermuscle100",
+      "superpunch100",
+      "launch250"
+    }
+    local L_175_ = game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("codeRemote")
+    task.spawn(function()
+      for L_176_forvar0, L_177_forvar1 in ipairs(L_174_) do
+        local L_178_ = L_177_forvar1
+        pcall(function()
+          L_175_:InvokeServer(L_178_)
+        end)
+        task.wait(0.5)
+      end
+    end)
+  end
+})
+_G.PlayerSection:AddToggle({
+  Title = "Walk On Water",
+  Default = false,
+  Flag = "WalkOnWater",
+  Callback = function(L_179_arg0)
+    _G.WaterKillParts = L_179_arg0
+    if not _G.CreatedParts then
+      _G.CreatedParts = {}
+    end
+    local L_180_ = 2048
+    local L_181_ = Vector3.new(- 2, - 9.5, - 2)
+    local L_182_ = math.ceil(50000 / L_180_)
+    if L_179_arg0 then
+      for L_183_forvar0 = 0, L_182_ - 1 do
+        local L_184_ = L_183_forvar0
+        for L_185_forvar0 = 0, L_182_ - 1 do
+          local L_186_ = Vector3.new(L_184_ * L_180_, 0, L_185_forvar0 * L_180_)
+          local L_187_ = Vector3.new(- L_184_ * L_180_, 0, L_185_forvar0 * L_180_)
+          local L_188_ = Vector3.new(- L_184_ * L_180_, 0, - L_185_forvar0 * L_180_)
+          local L_189_ = {
+            Vector3.new(L_184_ * L_180_, 0, - L_185_forvar0 * L_180_)
+          }
+          local L_190_ = {
+            L_186_,
+            L_187_,
+            L_188_,
+            L_1_(L_189_)
+          }
+          for L_191_forvar0, L_192_forvar1 in ipairs(L_190_) do
+            local L_193_ = Instance.new("Part")
+            L_193_.Size = Vector3.new(L_180_, 1, L_180_)
+            L_193_.Position = L_181_ + L_192_forvar1
+            L_193_.Anchored = true
+            L_193_.Transparency = 1
+            L_193_.CanCollide = true
+            L_193_.Parent = workspace
+            table.insert(_G.CreatedParts, L_193_)
+          end
+        end
+      end
+      return
+    end
+    for L_194_forvar0, L_195_forvar1 in ipairs(_G.CreatedParts) do
+      if L_195_forvar1 and L_195_forvar1.Parent then
+        L_195_forvar1:Destroy()
+      end
+    end
+    _G.CreatedParts = {}
+  end
+})
+_G.FortuneSection = _G.StuffTab:AddSection({
+  Name = "Fortune | Gifts",
+  Open = false
+})
+_G.FortuneSection:AddToggle({
+  Title = "Auto Spin Wheel",
+  Default = false,
+  Flag = "AutoWheel",
+  Callback = function(L_196_arg0)
+    _G.AutoWheel = L_196_arg0
+    while _G.AutoWheel do
+      game:GetService("ReplicatedStorage").rEvents.openFortuneWheelRemote:InvokeServer("openFortuneWheel", game:GetService("ReplicatedStorage").fortuneWheelChances["Fortune Wheel"])
+      task.wait(1)
+    end
+  end
+})
+_G.FortuneSection:AddToggle({
+  Title = "Auto Claim Gifts",
+  Default = false,
+  Flag = "AutoGifts",
+  Callback = function(L_197_arg0)
+    _G.AutoGifts = L_197_arg0
+    while _G.AutoGifts do
+      for L_198_forvar0 = 1, 8 do
+        game:GetService("ReplicatedStorage").rEvents.freeGiftClaimRemote:InvokeServer("claimGift", L_198_forvar0)
+      end
+      task.wait(1)
+    end
+  end
+})
+_G.ChestSection = _G.StuffTab:AddSection({
+  Name = "Chests",
+  Open = false
+})
+L_2_[3] = game:GetService("ReplicatedStorage")
+_G.ChestSection:AddToggle({
+  Title = "Claim Group Rewards",
+  Default = false,
+  Flag = "claim_group_rewards",
+  Callback = function(L_199_arg0)
+    _G.AutoGroupRewards = L_199_arg0
+    if L_199_arg0 then
+      task.spawn(function()
+        while _G.AutoGroupRewards do
+          local L_200_ = L_2_[3]:FindFirstChild("rEvents") and L_2_[3].rEvents:FindFirstChild("groupRemote")
+          if L_200_ then
+            L_200_:InvokeServer("groupRewards")
+          end
+          task.wait(1)
+        end
+      end)
+    end
+  end
+})
+_G.ChestSection:AddToggle({
+  Title = "Claim Golden Chest",
+  Default = false,
+  Flag = "claim_golden_chest",
+  Callback = function(L_201_arg0)
+    _G.AutoGoldenChest = L_201_arg0
+    if L_201_arg0 then
+      task.spawn(function()
+        while _G.AutoGoldenChest do
+          local L_202_ = L_2_[3]:FindFirstChild("rEvents") and L_2_[3].rEvents:FindFirstChild("checkChestRemote")
+          if L_202_ then
+            L_202_:InvokeServer("Golden Chest")
+          end
+          task.wait(5)
+        end
+      end)
+    end
+  end
+})
+_G.ChestSection:AddToggle({
+  Title = "Claim Enchanted Chest",
+  Default = false,
+  Flag = "claim_enchanted_chest",
+  Callback = function(L_203_arg0)
+    _G.AutoEnchantedChest = L_203_arg0
+    if L_203_arg0 then
+      task.spawn(function()
+        while _G.AutoEnchantedChest do
+          local L_204_ = L_2_[3]:FindFirstChild("rEvents") and L_2_[3].rEvents:FindFirstChild("checkChestRemote")
+          if L_204_ then
+            L_204_:InvokeServer("Enchanted Chest")
+          end
+          task.wait(10)
+        end
+      end)
+    end
+  end
+})
+_G.ChestSection:AddToggle({
+  Title = "Claim Mythical Chest",
+  Default = false,
+  Flag = "claim_mythic_chest",
+  Callback = function(L_205_arg0)
+    _G.AutoMythicalChest = L_205_arg0
+    if L_205_arg0 then
+      task.spawn(function()
+        while _G.AutoMythicalChest do
+          local L_206_ = L_2_[3]:FindFirstChild("rEvents") and L_2_[3].rEvents:FindFirstChild("checkChestRemote")
+          if L_206_ then
+            L_206_:InvokeServer("Mythical Chest")
+          end
+          task.wait(15)
+        end
+      end)
+    end
+  end
+})
+_G.ChestSection:AddToggle({
+  Title = "Claim Magma Chest",
+  Default = false,
+  Flag = "claim_magma_chest",
+  Callback = function(L_207_arg0)
+    _G.AutoMagmaChest = L_207_arg0
+    if L_207_arg0 then
+      task.spawn(function()
+        while _G.AutoMagmaChest do
+          local L_208_ = L_2_[3]:FindFirstChild("rEvents") and L_2_[3].rEvents:FindFirstChild("checkChestRemote")
+          if L_208_ then
+            L_208_:InvokeServer("Magma Chest")
+          end
+          task.wait(20)
+        end
+      end)
+    end
+  end
+})
+_G.ChestSection:AddToggle({
+  Title = "Claim Legends Chest",
+  Default = false,
+  Flag = "claim_legends_chest",
+  Callback = function(L_209_arg0)
+    _G.AutoLegendsChest = L_209_arg0
+    if L_209_arg0 then
+      task.spawn(function()
+        while _G.AutoLegendsChest do
+          local L_210_ = L_2_[3]:FindFirstChild("rEvents") and L_2_[3].rEvents:FindFirstChild("checkChestRemote")
+          if L_210_ then
+            L_210_:InvokeServer("Legends Chest")
+          end
+          task.wait(25)
+        end
+      end)
+    end
+  end
+})
+_G.ChestSection:AddToggle({
+  Title = "Claim Jungle Chest",
+  Default = false,
+  Flag = "claim_jungle_hest",
+  Callback = function(L_211_arg0)
+    _G.AutoJungleChest = L_211_arg0
+    if L_211_arg0 then
+      task.spawn(function()
+        while _G.AutoJungleChest do
+          local L_212_ = L_2_[3]:FindFirstChild("rEvents") and L_2_[3].rEvents:FindFirstChild("checkChestRemote")
+          if L_212_ then
+            L_212_:InvokeServer("Jungle Chest")
+          end
+          task.wait(30)
+        end
+      end)
+    end
+  end
+})
+_G.UltimateSection = _G.StuffTab:AddSection({
+  Name = "Ultimate",
+  Open = false
+})
+local L_7_ = {
+  name = "RepSpeed",
+  title = "+5% Rep Speed",
+  description = "+5% Rep Speed"
+}
+local L_8_ = {
+  name = "PetSlot",
+  title = "+1 Pet Slot",
+  description = "+1 Pet Slot"
+}
+local L_9_ = {
+  name = "ItemCapacity",
+  title = "+10 Item Capacity",
+  description = "+10 Item Capacity"
+}
+local L_10_ = {
+  name = "DailySpin",
+  title = "+1 Daily Spin",
+  description = "+1 Daily Spin"
+}
+local L_11_ = {
+  name = "ChestRewards",
+  title = "x2 Chest Rewards",
+  description = "x2 Chest Rewards"
+}
+local L_12_ = {
+  name = "QuestRewards",
+  title = "x2 Quest Rewards",
+  description = "x2 Quest Rewards"
+}
+local L_13_ = {
+  name = "MuscleMind",
+  title = "Muscle Mind",
+  description = "Muscle Mind"
+}
+local L_14_ = {
+  name = "JungleSwift",
+  title = "Jungle Swift",
+  description = "Jungle Swift"
+}
+local L_15_ = {
+  name = "InfernalHealth",
+  title = "Infernal Health",
+  description = "Infernal Health"
+}
+local L_16_ = {
+  name = "GalaxyGains",
+  title = "Galaxy Gains",
+  description = "Galaxy Gains"
+}
+local L_17_ = {
+  name = "DemonDamage",
+  title = "Demon Damage",
+  description = "Demon Damage"
+}
+local L_18_ = {
+  name = "GoldenRebirth",
+  title = "Golden Rebirth",
+  description = "Golden Rebirth"
+}
+for L_213_forvar0, L_214_forvar1 in ipairs({
+  L_7_,
+  L_8_,
+  L_9_,
+  L_10_,
+  L_11_,
+  L_12_,
+  L_13_,
+  L_14_,
+  L_15_,
+  L_16_,
+  L_17_,
+  L_18_
+}) do
+  (function(L_215_arg0, L_216_arg1, L_217_arg2)
+    _G.UltimateSection:AddToggle({
+      Title = L_216_arg1,
+      Default = false,
+      Flag = L_215_arg0,
+      Callback = function(L_218_arg0)
+        if L_218_arg0 then
+          game:GetService("ReplicatedStorage").rEvents.ultimatesRemote:InvokeServer("upgradeUltimate", L_215_arg0)
+        end
+      end
+    })
+  end)(L_214_forvar1.name, L_214_forvar1.title, L_214_forvar1.description)
+end
+_G.BrawlSection = _G.StuffTab:AddSection({
+  Name = "Brawl",
+  Open = false
+})
+_G.BrawlSection:AddToggle({
+  Title = "Auto Join Brawl [God Mode]",
+  Default = false,
+  Flag = "Auto_Join_Brawl_Fast_Toggle",
+  Callback = function(L_219_arg0)
+    getgenv().joinbrawlfast = L_219_arg0
+    while getgenv().joinbrawlfast do
+      for L_220_forvar0 = 1, 10 do
+        game:GetService("ReplicatedStorage").rEvents.brawlEvent:FireServer("joinBrawl")
+      end
+      task.wait()
+    end
+  end
+})
+_G.BrawlSection:AddToggle({
+  Title = "Auto Join Brawl",
+  Default = false,
+  Flag = "Auto_Join_Brawl_Toggle",
+  Callback = function(L_221_arg0)
+    getgenv().joinbrawl = L_221_arg0
+    while getgenv().joinbrawl do
+      task.wait(5)
+      game:GetService("ReplicatedStorage").rEvents.brawlEvent:FireServer("joinBrawl")
+    end
+  end
+})
+_G.GymSection = _G.FarmTab:AddSection({
+  Name = "Gyms",
+  Open = false
+})
+local function L_19_func()
+  local L_222_ = game:GetService("VirtualInputManager")
+  L_222_:SendKeyEvent(true, "E", false, game)
+  task.wait(0.1)
+  L_222_:SendKeyEvent(false, "E", false, game)
+end
+local L_20_ = {
+  "Starter Island",
+  "Legend Beach",
+  "Frost Gym",
+  "Mythical Gym",
+  "Eternal Gym",
+  "Legend Gym",
+  "Muscle King Gym",
+  "Jungle Gym"
+}
+local L_21_ = CFrame.new(- 17.0609932, 3.31417918, - 2.48164988)
+local L_22_ = CFrame.new(470.334656, 3.31417966, - 321.053925)
+local L_23_ = CFrame.new(- 3013.24194, 39.2158546, - 335.036926)
+local L_24_ = CFrame.new(2371.7356, 39.2158546, 1246.31555)
+local L_25_ = CFrame.new(- 7176.19141, 45.394104, - 1106.31421)
+local L_26_ = CFrame.new(4111.91748, 1020.46674, - 3799.97217)
+local L_27_ = CFrame.new(- 8590.06152, 46.0167427, - 6043.34717)
+local L_28_ = CFrame.new(- 8173, 64, 1898)
+local L_29_ = {
+  ["Starter Island"] = L_21_,
+  ["Legend Beach"] = L_22_,
+  ["Frost Gym"] = L_23_,
+  ["Mythical Gym"] = L_24_,
+  ["Eternal Gym"] = L_25_,
+  ["Legend Gym"] = L_26_,
+  ["Muscle King Gym"] = L_27_,
+  ["Jungle Gym"] = L_28_
+}
+local L_30_ = CFrame.new(- 48.8711243, 3.31417918, - 11.8831778)
+local L_31_ = CFrame.new(470.334656, 3.31417966, - 321.053925)
+local L_32_ = CFrame.new(- 2933.47998, 29.6399612, - 579.946045)
+local L_33_ = CFrame.new(2489.21484, 3.67686629, 849.051025)
+local L_34_ = CFrame.new(- 7176.19141, 45.394104, - 1106.31421)
+local L_35_ = CFrame.new(4304.99023, 987.829956, - 4124.2334)
+local L_36_ = CFrame.new(- 8940.12402, 13.1642084, - 5699.13477)
+local L_37_ = CFrame.new(- 8352, 34, 2878)
+local L_38_ = {
+  ["Starter Island"] = L_30_,
+  ["Legend Beach"] = L_31_,
+  ["Frost Gym"] = L_32_,
+  ["Mythical Gym"] = L_33_,
+  ["Eternal Gym"] = L_34_,
+  ["Legend Gym"] = L_35_,
+  ["Muscle King Gym"] = L_36_,
+  ["Jungle Gym"] = L_37_
+}
+local L_39_ = CFrame.new(- 48.8711243, 3.31417918, - 11.8831778)
+local L_40_ = CFrame.new(470.334656, 3.31417966, - 321.053925)
+local L_41_ = CFrame.new(- 2933.47998, 29.6399612, - 579.946045)
+local L_42_ = CFrame.new(2489.21484, 3.67686629, 849.051025)
+local L_43_ = CFrame.new(- 7176.19141, 45.394104, - 1106.31421)
+local L_44_ = CFrame.new(4304.99023, 987.829956, - 4124.2334)
+local L_45_ = CFrame.new(- 8940.12402, 13.1642084, - 5699.13477)
+local L_46_ = {
+  ["Starter Island"] = L_39_,
+  ["Legend Beach"] = L_40_,
+  ["Frost Gym"] = L_41_,
+  ["Mythical Gym"] = L_42_,
+  ["Eternal Gym"] = L_43_,
+  ["Legend Gym"] = L_44_,
+  ["Muscle King Gym"] = L_45_
+}
+local L_47_ = CFrame.new(- 33.3047485, 3.31417918, - 11.8831778)
+local L_48_ = CFrame.new(470.334656, 3.31417966, - 321.053925)
+local L_49_ = CFrame.new(- 2933.47998, 29.6399612, - 579.946045)
+local L_50_ = CFrame.new(2489.21484, 3.67686629, 849.051025)
+local L_51_ = CFrame.new(- 7176.19141, 45.394104, - 1106.31421)
+local L_52_ = CFrame.new(4304.99023, 987.829956, - 4124.2334)
+local L_53_ = CFrame.new(- 8940.12402, 13.1642084, - 5699.13477)
+local L_54_ = CFrame.new(- 8666, 34, 2070)
+local L_55_ = {
+  ["Starter Island"] = L_47_,
+  ["Legend Beach"] = L_48_,
+  ["Frost Gym"] = L_49_,
+  ["Mythical Gym"] = L_50_,
+  ["Eternal Gym"] = L_51_,
+  ["Legend Gym"] = L_52_,
+  ["Muscle King Gym"] = L_53_,
+  ["Jungle Gym"] = L_54_
+}
+local L_56_ = CFrame.new(- 33.3047485, 3.31417918, - 11.8831778)
+local L_57_ = CFrame.new(470.334656, 3.31417966, - 321.053925)
+local L_58_ = CFrame.new(- 2933.47998, 29.6399612, - 579.946045)
+local L_59_ = CFrame.new(2489.21484, 3.67686629, 849.051025)
+local L_60_ = CFrame.new(- 7176.19141, 45.394104, - 1106.31421)
+local L_61_ = CFrame.new(4304.99023, 987.829956, - 4124.2334)
+local L_62_ = CFrame.new(- 8940.12402, 13.1642084, - 5699.13477)
+local L_63_ = CFrame.new(- 8621, 34, 2684)
+local L_64_ = {
+  ["Starter Island"] = L_56_,
+  ["Legend Beach"] = L_57_,
+  ["Frost Gym"] = L_58_,
+  ["Mythical Gym"] = L_59_,
+  ["Eternal Gym"] = L_60_,
+  ["Legend Gym"] = L_61_,
+  ["Muscle King Gym"] = L_62_,
+  ["Jungle Gym"] = L_63_
+}
+L_2_[4] = {
+  ["Bench Press"] = L_29_,
+  Squat = L_38_,
+  Deadlift = L_46_,
+  ["Pull Up"] = L_55_,
+  Boulder = L_64_
+}
+for L_223_forvar0, L_224_forvar1 in ipairs({
+  "Bench Press",
+  "Squat",
+  "Deadlift",
+  "Pull Up",
+  "Boulder"
+}) do
+  local L_225_ = L_224_forvar1
+  local L_226_ = _G.GymSection
+  local L_227_ = "Select " .. L_225_
+  local L_228_ = L_20_[1]
+  local L_229_ = L_225_ .. "_dropdown"
+  L_226_:AddDropdown({
+    Title = L_227_,
+    Options = L_20_,
+    Default = L_228_,
+    Flag = L_229_,
+    Callback = function(L_234_arg0)
+      _G["select" .. string.lower(string.gsub(L_225_, " ", ""))] = L_234_arg0
+    end
+  })
+  local L_230_ = _G.GymSection
+  local L_231_ = "Farm " .. L_225_
+  local L_232_ = L_230_.AddToggle
+  local L_233_ = L_225_ .. "_Toggle"
+  L_232_(L_230_, {
+    Title = L_231_,
+    Default = false,
+    Flag = L_233_,
+    Callback = function(L_235_arg0)
+      local L_236_ = "working_" .. string.lower(string.gsub(L_225_, " ", ""))
+      getgenv()[L_236_] = L_235_arg0
+      if L_235_arg0 then
+        local L_237_ = _G["select" .. string.lower(string.gsub(L_225_, " ", ""))]
+        if L_2_[4][L_225_][L_237_] then
+          local function L_238_func()
+            while getgenv()[L_236_] and task.wait() do
+              game:GetService("Players").LocalPlayer.muscleEvent:FireServer("rep")
+            end
+          end;
+          (function(L_239_arg0, L_240_arg1)
+            if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = L_240_arg1
+              task.wait(0.5)
+              L_19_func()
+              L_238_func()
+            end
+          end)(L_225_, L_2_[4][L_225_][L_237_])
+        end
+      end
+    end
+  })
+end
+_G.GymSection:AddDropdown({
+  Title = "Select TreadMill",
+  Options = {
+    "Tiny Island",
+    "Starter Island",
+    "Legend Beach",
+    "Frost Gym",
+    "Mythical Gym",
+    "Eternal Gym",
+    "Legend Gym",
+    "Jungle Gym"
+  },
+  Default = "Tiny Island",
+  Flag = "Tread_Dropdown",
+  Callback = function(L_241_arg0)
+    _G.selecttreadmill = L_241_arg0
+  end
+})
+local L_65_ = {
+  pos = CFrame.new(- 31.8626194, 6.0588026, 2087.88672, - 0.999396682, - 9.72631931E-09, 0.034730725, - 6.63278898E-09, 1, 8.91870684E-08, - 0.034730725, 8.8902901E-08, - 0.999396682),
+  req = 0
+}
+local L_66_ = {
+  pos = CFrame.new(226.252472, 8.1526947, 219.366516, - 0.00880406145, 3.58277887E-08, - 0.999961257, - 4.41204939E-08, 1, 3.62176351E-08, 0.999961257, 4.44376482E-08, - 0.00880406145),
+  req = 600
+}
+local L_67_ = {
+  pos = CFrame.new(- 365.798309, 44.5082932, - 501.618591, 0.00878552441, - 6.19950713E-09, 0.999961436, - 4.37451603E-10, 1, 6.20358964E-09, - 0.999961436, - 4.91936492E-10, 0.00878552441),
+  req = 3000
+}
+local L_68_ = {
+  pos = CFrame.new(- 2933.47998, 29.6399612, - 579.946045, 0.0345239155, - 1.03010173E-07, 0.999403894, 1.03015294E-08, 1, 1.02715752E-07, - 0.999403894, 6.74923806E-09, 0.0345239155),
+  req = 3000
+}
+local L_69_ = {
+  pos = CFrame.new(2659.50635, 21.6095238, 934.690613, 0.999999881, 4.98906161E-08, 0.000502891606, - 4.98585742E-08, 1, - 6.37288338E-08, - 0.000502891606, 6.37037516E-08, 0.999999881),
+  req = 3000
+}
+local L_70_ = {
+  pos = CFrame.new(- 7058.42, 33.35, - 1455.54),
+  req = 3500
+}
+local L_71_ = {
+  pos = CFrame.new(4367.36, 1003.03, - 3637.68),
+  req = 0
+}
+local L_72_ = CFrame.new(- 8137, 28, 2820)
+L_2_[5] = {
+  ["Tiny Island"] = L_65_,
+  ["Starter Island"] = L_66_,
+  ["Legend Beach"] = L_67_,
+  ["Frost Gym"] = L_68_,
+  ["Mythical Gym"] = L_69_,
+  ["Eternal Gym"] = L_70_,
+  ["Legend Gym"] = L_71_,
+  ["Jungle Gym"] = {
+    pos = L_72_,
+    req = 0
+  }
+}
+_G.GymSection:AddToggle({
+  Title = "Farm TreadMill",
+  Default = false,
+  Flag = "Tread_Toggle",
+  Callback = function(L_242_arg0)
+    getgenv().tread = L_242_arg0
+    if L_242_arg0 then
+      if not getgenv().treadConnection then
+        getgenv().treadConnection = game:GetService("RunService").RenderStepped:Connect(function()
+          if getgenv().tread and (game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")) then
+            local L_243_ = L_2_[5][_G.selecttreadmill]
+            if L_243_ and game:GetService("Players").LocalPlayer.Agility.Value > L_243_.req then
+              game.Players.LocalPlayer.Character.Humanoid:Move(Vector3.new(0, 0, 100))
+              game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = L_243_.pos
+              game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+            end
+          end
+        end)
+        return
+      end
+    elseif getgenv().treadConnection then
+      getgenv().treadConnection:Disconnect()
+      getgenv().treadConnection = nil
+    end
+  end
+})
+_G.ToolsSection = _G.FarmTab:AddSection({
+  Name = "Tools",
+  Open = false
+})
+local L_73_ = game:GetService("Players").LocalPlayer
+L_2_[6] = nil
+L_2_[6] = L_73_
+L_2_[7] = function(L_244_arg0, L_245_arg1)
+  while _G[L_245_arg1] do
+    local L_246_ = L_2_[6].Character
+    if L_246_ then
+      local L_247_ = L_246_:FindFirstChildOfClass("Humanoid")
+      local L_248_ = L_2_[6].Backpack:FindFirstChild(L_244_arg0)
+      if L_248_ and (L_247_ and L_247_.Health > 0) then
+        L_247_:EquipTool(L_248_)
+      end
+    end
+    task.wait(0)
+  end
+end
+_G.ToolsSection:AddToggle({
+  Title = "Auto Lift",
+  Default = false,
+  Flag = "maytoolworks",
+  Callback = function(L_249_arg0)
+    _G.AutoLift = L_249_arg0
+    if L_249_arg0 then
+      task.spawn(function()
+        while _G.AutoLift do
+          L_2_[6]:WaitForChild("muscleEvent"):FireServer("rep")
+          task.wait(0)
+        end
+      end)
+    end
+  end
+})
+_G.ToolsSection:AddToggle({
+  Title = "Auto Weight",
+  Default = false,
+  Flag = "Weight",
+  Callback = function(L_250_arg0)
+    _G.AutoWeight = L_250_arg0
+    if L_250_arg0 then
+      task.spawn(function()
+        L_2_[7]("Weight", "AutoWeight")
+      end)
+      task.spawn(function()
+        while _G.AutoWeight do
+          L_2_[6].muscleEvent:FireServer("rep")
+          task.wait(0)
+        end
+      end)
+    end
+  end
+})
+_G.ToolsSection:AddToggle({
+  Title = "Auto Pushups",
+  Default = false,
+  Flag = "Pushups",
+  Callback = function(L_251_arg0)
+    _G.AutoPushups = L_251_arg0
+    if L_251_arg0 then
+      task.spawn(function()
+        L_2_[7]("Pushups", "AutoPushups")
+      end)
+      task.spawn(function()
+        while _G.AutoPushups do
+          L_2_[6].muscleEvent:FireServer("rep")
+          task.wait(0)
+        end
+      end)
+    end
+  end
+})
+_G.ToolsSection:AddToggle({
+  Title = "Auto Handstands",
+  Default = false,
+  Flag = "Handstands",
+  Callback = function(L_252_arg0)
+    _G.AutoHandstands = L_252_arg0
+    if L_252_arg0 then
+      task.spawn(function()
+        L_2_[7]("Handstands", "AutoHandstands")
+      end)
+      task.spawn(function()
+        while _G.AutoHandstands do
+          L_2_[6].muscleEvent:FireServer("rep")
+          task.wait(0)
+        end
+      end)
+    end
+  end
+})
+_G.ToolsSection:AddToggle({
+  Title = "Auto Situps",
+  Default = false,
+  Flag = "Situps",
+  Callback = function(L_253_arg0)
+    _G.AutoSitups = L_253_arg0
+    if L_253_arg0 then
+      task.spawn(function()
+        L_2_[7]("Situps", "AutoSitups")
+      end)
+      task.spawn(function()
+        while _G.AutoSitups do
+          L_2_[6].muscleEvent:FireServer("rep")
+          task.wait(0)
+        end
+      end)
+    end
+  end
+})
+_G.ToolsSection:AddToggle({
+  Title = "Auto Punch",
+  Default = false,
+  Flag = "Punch",
+  Callback = function(L_254_arg0)
+    _G.fastHitActive = L_254_arg0
+    if L_254_arg0 then
+      task.spawn(function()
+        while _G.fastHitActive do
+          local L_256_ = L_2_[6].Character
+          if L_256_ then
+            local L_257_ = L_256_:FindFirstChildOfClass("Humanoid")
+            local L_258_ = L_2_[6].Backpack:FindFirstChild("Punch")
+            if L_258_ and (L_257_ and L_257_.Health > 0) then
+              L_258_.Parent = L_256_
+              local L_259_ = L_258_:FindFirstChild("attackTime")
+              if L_259_ then
+                L_259_.Value = 0
+              end
+            end
+          end
+          task.wait(0)
+        end
+      end)
+      task.spawn(function()
+        while _G.fastHitActive do
+          L_2_[6].muscleEvent:FireServer("punch", "rightHand")
+          L_2_[6].muscleEvent:FireServer("punch", "leftHand")
+          local L_260_ = L_2_[6].Character
+          if L_260_ then
+            local L_261_ = L_260_:FindFirstChild("Punch")
+            if L_261_ then
+              L_261_:Activate()
+            end
+          end
+          task.wait(0)
+        end
+      end)
+      return
+    end
+    local L_255_ = L_2_[6].Character
+    if L_255_ then
+      local L_262_ = L_255_:FindFirstChild("Punch")
+      if L_262_ then
+        L_262_.Parent = L_2_[6].Backpack
+      end
+    end
+  end
+})
+_G.ToolsSection:AddToggle({
+  Title = "Fast Tools",
+  Default = false,
+  Flag = "ToolSpeed",
+  Callback = function(L_263_arg0)
+    _G.FastTools = L_263_arg0
+    local L_264_ = {
+      "Punch",
+      "attackTime",
+      not L_263_arg0 and 0.35 or 0
+    }
+    local L_265_ = {
+      "Ground Slam",
+      "attackTime",
+      not L_263_arg0 and 6 or 0
+    }
+    local L_266_ = {
+      "Stomp",
+      "attackTime",
+      not L_263_arg0 and 7 or 0
+    }
+    local L_267_ = {
+      "Handstands",
+      "repTime",
+      not L_263_arg0 and 1 or 0
+    }
+    local L_268_ = {
+      "Pushups",
+      "repTime",
+      not L_263_arg0 and 1 or 0
+    }
+    local L_269_ = {
+      "Weight",
+      "repTime",
+      not L_263_arg0 and 1 or 0
+    }
+    local L_270_ = not L_263_arg0 and 1 or 0
+    local L_271_ = game.Players.LocalPlayer
+    local L_272_ = L_271_:WaitForChild("Backpack")
+    for L_273_forvar0, L_274_forvar1 in ipairs({
+      L_264_,
+      L_265_,
+      L_266_,
+      L_267_,
+      L_268_,
+      L_269_,
+      {
+        "Situps",
+        "repTime",
+        L_270_
+      }
+    }) do
+      local L_275_ = L_272_:FindFirstChild(L_274_forvar1[1])
+      local L_276_ = L_275_
+      if L_275_ then
+        L_276_ = L_275_:FindFirstChild(L_274_forvar1[2])
+      end
+      if L_276_ then
+        L_275_[L_274_forvar1[2]].Value = L_274_forvar1[3]
+      end
+      local L_277_ = L_271_.Character
+      if L_277_ then
+        L_277_ = L_271_.Character:FindFirstChild(L_274_forvar1[1])
+      end
+      if L_277_ and L_277_:FindFirstChild(L_274_forvar1[2]) then
+        L_277_[L_274_forvar1[2]].Value = L_274_forvar1[3]
+      end
+    end
+  end
+})
+_G.RocksSection = _G.FarmTab:AddSection({
+  Name = "Rocks",
+  Open = false
+})
+_G.RocksSection:AddDivider({
+  "ã€Œ  Non Teleport  ã€"
+})
+L_2_[8] = game:GetService("Players").LocalPlayer
+L_2_[9] = game:GetService("Workspace")
+L_2_[10] = false
+L_2_[11] = function()
+  local L_278_ = L_2_[8].Character
+  if not L_278_ then
+    return
+  end
+  local L_279_ = L_278_:FindFirstChild("Humanoid")
+  if not L_279_ then
+    return
+  end
+  for L_281_forvar0, L_282_forvar1 in pairs(L_2_[8].Backpack:GetChildren()) do
+    if L_282_forvar1.Name == "Punch" then
+      L_279_:EquipTool(L_282_forvar1)
+      break
+    end
+  end
+  local L_280_ = L_2_[8]:FindFirstChild("muscleEvent") or L_278_ and L_278_:FindFirstChild("muscleEvent")
+  if L_280_ then
+    L_280_:FireServer("punch", "leftHand")
+    L_280_:FireServer("punch", "rightHand")
+  end
+end
+L_2_[12] = function(L_283_arg0)
+  for L_284_forvar0, L_285_forvar1 in pairs(L_2_[9].machinesFolder:GetChildren()) do
+    local L_286_ = L_285_forvar1:FindFirstChild("Rock")
+    if not L_286_ then
+      continue
+    end
+    local L_287_ = L_286_:FindFirstChild("rockGui")
+    local L_288_ = L_287_ and L_287_:FindFirstChild("rockName")
+    if L_288_ and L_283_arg0 == L_288_.Text then
+      return L_286_
+    end
+  end
+end
+local function L_74_func()
+  local L_289_ = L_2_[8].Character
+  if not L_289_ then
+    L_2_[8].CharacterAdded:Wait()
+    L_289_ = L_2_[8].Character
+  end
+  local L_290_ = tick() + 10
+  while L_290_ > tick() do
+    local L_291_ = L_289_:FindFirstChild("HumanoidRootPart")
+    local L_292_ = L_289_:FindFirstChild("Humanoid")
+    if L_291_ then
+      L_291_ = L_292_ and L_292_.Health > 0
+    end
+    if L_291_ then
+      return true
+    end
+    task.wait(0.1)
+  end
+  return false
+end
+L_2_[13] = nil
+L_2_[13] = function()
+  local L_293_ = L_2_[8].Character
+  if not L_293_ then
+    return false
+  end
+  local L_294_ = L_293_:FindFirstChild("Humanoid")
+  return L_294_ ~= nil and L_294_.Health > 0
+end
+L_2_[14] = function(L_295_arg0, L_296_arg1)
+  while L_2_[10] do
+    task.wait()
+    if not L_2_[13]() then
+      if not L_74_func() then
+        task.wait(1)
+      end
+    else
+      local L_297_ = L_2_[8].Character
+      local L_298_ = L_2_[8]:FindFirstChild("Durability")
+      if L_297_ and (L_298_ and L_296_arg1 <= L_298_.Value) then
+        local L_299_ = L_297_:FindFirstChild("LeftHand")
+        local L_300_ = L_299_
+        local L_301_ = L_297_:FindFirstChild("RightHand")
+        local L_302_ = L_295_arg0()
+        if L_299_ then
+          L_300_ = L_301_ and L_302_
+        end
+        if L_300_ then
+          firetouchinterest(L_302_, L_301_, 0)
+          firetouchinterest(L_302_, L_301_, 1)
+          firetouchinterest(L_302_, L_299_, 0)
+          firetouchinterest(L_302_, L_299_, 1)
+          L_2_[11]()
+        end
+      end
+    end
+  end
+end
+local L_75_ = {
+  {
+    flag = "TinyIslandRock",
+    title = "Tiny Island Rock",
+    dur = 0,
+    get = function()
+      return L_2_[12]("Tiny Rock")
+    end
+  },
+  {
+    flag = "StarterIslandRock",
+    title = "Starter Island Rock",
+    dur = 10,
+    get = function()
+      return L_2_[12]("Punching Rock")
+    end
+  },
+  {
+    flag = "LargeRock",
+    title = "Large Rock",
+    dur = 100,
+    get = function()
+      return L_2_[12]("Large Rock")
+    end
+  },
+  {
+    flag = "LegendBeachRock",
+    title = "Legend Beach Rock",
+    dur = 5000,
+    get = function()
+      return L_2_[12]("Golden Rock")
+    end
+  },
+  {
+    flag = "FrostGymRock",
+    title = "Frost Gym Rock",
+    dur = 150000,
+    get = function()
+      return L_2_[12]("Frozen Rock")
+    end
+  },
+  {
+    flag = "MythicalGymRock",
+    title = "Mythical Gym Rock",
+    dur = 400000,
+    get = function()
+      return L_2_[12]("Mystic Rock")
+    end
+  },
+  {
+    flag = "EternalGymRock",
+    title = "Eternal Gym Rock",
+    dur = 750000,
+    get = function()
+      return L_2_[12]("Inferno Rock")
+    end
+  },
+  {
+    flag = "LegendGymRock",
+    title = "Legend Gym Rock",
+    dur = 1000000,
+    get = function()
+      return L_2_[12]("Rock Of Legends")
+    end
+  },
+  {
+    flag = "MuscleKingGymRock",
+    title = "MuscleKing Gym Rock",
+    dur = 5000000,
+    get = function()
+      return L_2_[12]("Muscle King Mountain")
+    end
+  },
+  {
+    flag = "AncientJungleRock",
+    title = "Ancient Jungle Rock",
+    dur = 10000000,
+    get = function()
+      return L_2_[12]("Ancient Jungle Rock")
+    end
+  }
+}
+L_2_[15] = {}
+for L_303_forvar0, L_304_forvar1 in ipairs(L_75_) do
+  L_2_[15][L_304_forvar1.title] = L_304_forvar1
+end
+local L_76_ = {}
+for L_305_forvar0, L_306_forvar1 in ipairs(L_75_) do
+  table.insert(L_76_, L_306_forvar1.title)
+end
+L_2_[16] = nil
+_G.RocksSection:AddDropdown({
+  Title = "Select Rock",
+  Options = L_76_,
+  Default = "",
+  Flag = "TinyIslandRock",
+  Callback = function(L_307_arg0)
+    L_2_[16] = L_2_[15][L_307_arg0]
+    if L_2_[10] then
+      task.wait()
+      L_2_[10] = true
+      task.spawn(L_2_[14], L_2_[16].get, L_2_[16].dur)
+    end
+  end
+})
+_G.RocksSection:AddToggle({
+  Title = "Farm Rock",
+  Default = false,
+  Flag = "rock_farm_active",
+  Callback = function(L_308_arg0)
+    L_2_[10] = L_308_arg0
+    if L_308_arg0 then
+      L_308_arg0 = L_2_[16]
+    end
+    if L_308_arg0 then
+      task.spawn(L_2_[14], L_2_[16].get, L_2_[16].dur)
+    end
+  end
+})
+_G.RocksSection:AddDivider({
+  "ã€Œ  Teleport  ã€"
+})
+L_2_[17] = game:GetService("Players").LocalPlayer
+L_2_[18] = game:GetService("Workspace")
+L_2_[19] = false
+L_2_[20] = function(L_309_arg0)
+  for L_310_forvar0, L_311_forvar1 in pairs(L_2_[18].machinesFolder:GetChildren()) do
+    local L_312_ = L_311_forvar1:FindFirstChild("Rock")
+    if not L_312_ then
+      continue
+    end
+    local L_313_ = L_312_:FindFirstChild("rockGui")
+    local L_314_ = L_313_ and L_313_:FindFirstChild("rockName")
+    if L_314_ and L_309_arg0 == L_314_.Text then
+      return L_312_
+    end
+  end
+end
+local function L_77_func()
+  local L_315_ = L_2_[17].Character
+  if not L_315_ then
+    L_2_[17].CharacterAdded:Wait()
+    L_315_ = L_2_[17].Character
+  end
+  local L_316_ = tick() + 10
+  while L_316_ > tick() do
+    local L_317_ = L_315_:FindFirstChild("HumanoidRootPart")
+    local L_318_ = L_315_:FindFirstChild("Humanoid")
+    if L_317_ then
+      L_317_ = L_318_ and L_318_.Health > 0
+    end
+    if L_317_ then
+      return true
+    end
+    task.wait(0.1)
+  end
+  return false
+end
+L_2_[21] = nil
+L_2_[21] = function()
+  local L_319_ = L_2_[17].Character
+  if not L_319_ then
+    return
+  end
+  local L_320_ = L_319_:FindFirstChildOfClass("Humanoid")
+  if not L_320_ or not (L_320_.Health > 0) then
+    return
+  end
+  local L_321_ = L_2_[17].Backpack:FindFirstChild("Punch")
+  if L_321_ then
+    L_321_.Parent = L_319_
+    local L_324_ = L_321_:FindFirstChild("attackTime")
+    if L_324_ then
+      L_324_.Value = 0
+    end
+  end
+  local L_322_ = L_2_[17]:FindFirstChild("muscleEvent") or L_319_ and L_319_:FindFirstChild("muscleEvent")
+  if L_322_ then
+    L_322_:FireServer("punch", "rightHand")
+    L_322_:FireServer("punch", "leftHand")
+  end
+  local L_323_ = L_319_:FindFirstChild("Punch")
+  if L_323_ then
+    L_323_:Activate()
+  end
+end
+L_2_[22] = function(L_325_arg0, L_326_arg1, L_327_arg2)
+  while L_2_[19] do
+    local L_328_ = L_2_[17].Character
+    local L_329_
+    if not L_328_ then
+      L_329_ = false
+    else
+      local L_330_ = L_328_:FindFirstChild("Humanoid")
+      L_329_ = L_330_ ~= nil and L_330_.Health > 0
+    end
+    if not L_329_ then
+      if not L_77_func() then
+        task.wait(1)
+      end
+    else
+      local L_331_ = L_2_[17]:FindFirstChild("Durability")
+      if not L_331_ or not (L_326_arg1 <= L_331_.Value) then
+        task.wait(1)
+      else
+        local L_332_ = L_2_[17].Character
+        local L_333_ = L_332_ and L_332_:FindFirstChild("HumanoidRootPart")
+        if not L_333_ then
+          task.wait(0.1)
+        else
+          local L_334_ = L_325_arg0()
+          if L_334_ then
+            local L_335_ = L_334_.Position
+            L_333_.CFrame = CFrame.new(L_327_arg2, Vector3.new(L_335_.X, L_327_arg2.Y, L_335_.Z))
+          else
+            L_333_.CFrame = CFrame.new(L_327_arg2)
+          end
+          L_333_.Anchored = true
+          L_2_[21]()
+          L_333_.Anchored = false
+          task.wait()
+        end
+      end
+    end
+  end
+end
+local L_78_ = Vector3.new(12, 8, 2118)
+local L_79_ = {
+  flag = "TinyIslandRockTp",
+  title = "Tiny Island Rock",
+  dur = 0,
+  tp = L_78_,
+  get = function()
+    return L_2_[20]("Tiny Rock")
+  end
+}
+local L_80_ = Vector3.new(- 153, 7, 437)
+local L_81_ = {
+  flag = "StarterIslandRockTp",
+  title = "Starter Island Rock",
+  dur = 10,
+  tp = L_80_,
+  get = function()
+    return L_2_[20]("Punching Rock")
+  end
+}
+local L_82_ = Vector3.new(165, 7, - 168)
+local L_83_ = {
+  flag = "LargeRockTp",
+  title = "Large Rock",
+  dur = 100,
+  tp = L_82_,
+  get = function()
+    return L_2_[20]("Large Rock")
+  end
+}
+local L_84_ = Vector3.new(342, 7, - 591)
+local L_85_ = {
+  flag = "LegendBeachRockTp",
+  title = "Legend Beach Rock",
+  dur = 5000,
+  tp = L_84_,
+  get = function()
+    return L_2_[20]("Golden Rock")
+  end
+}
+local L_86_ = Vector3.new(- 2513, 7, - 230)
+local L_87_ = {
+  flag = "FrostGymRockTp",
+  title = "Frost Gym Rock",
+  dur = 150000,
+  tp = L_86_,
+  get = function()
+    return L_2_[20]("Frozen Rock")
+  end
+}
+local L_88_ = Vector3.new(2146, 7, 1251)
+local L_89_ = {
+  flag = "MythicalGymRockTp",
+  title = "Mythical Gym Rock",
+  dur = 400000,
+  tp = L_88_,
+  get = function()
+    return L_2_[20]("Mystic Rock")
+  end
+}
+local L_90_ = Vector3.new(- 7304, 7, - 1269)
+local L_91_ = {
+  flag = "EternalGymRockTp",
+  title = "Eternal Gym Rock",
+  dur = 750000,
+  tp = L_90_,
+  get = function()
+    return L_2_[20]("Inferno Rock")
+  end
+}
+local L_92_ = Vector3.new(4097, 983, - 4124)
+local L_93_ = {
+  flag = "LegendGymRockTp",
+  title = "Legend Gym Rock",
+  dur = 1000000,
+  tp = L_92_,
+  get = function()
+    return L_2_[20]("Rock Of Legends")
+  end
+}
+local L_94_ = Vector3.new(- 9042, 9, - 6064)
+local L_95_ = {
+  flag = "MuscleKingGymRockTp",
+  title = "MuscleKing Gym Rock",
+  dur = 5000000,
+  tp = L_94_,
+  get = function()
+    return L_2_[20]("Muscle King Mountain")
+  end
+}
+local L_96_ = Vector3.new(- 7537, 4, 2980)
+local L_97_ = {
+  L_79_,
+  L_81_,
+  L_83_,
+  L_85_,
+  L_87_,
+  L_89_,
+  L_91_,
+  L_93_,
+  L_95_,
+  {
+    flag = "AncientJungleRockTp",
+    title = "Ancient Jungle Rock",
+    dur = 10000000,
+    tp = L_96_,
+    get = function()
+      return L_2_[20]("Ancient Jungle Rock")
+    end
+  }
+}
+L_2_[23] = {}
+for L_336_forvar0, L_337_forvar1 in ipairs(L_97_) do
+  L_2_[23][L_337_forvar1.title] = L_337_forvar1
+end
+local L_98_ = {}
+for L_338_forvar0, L_339_forvar1 in ipairs(L_97_) do
+  table.insert(L_98_, L_339_forvar1.title)
+end
+L_2_[24] = nil
+_G.RocksSection:AddDropdown({
+  Title = "Select Rock",
+  Options = L_98_,
+  Default = "",
+  Flag = "TinyIslandRockTp",
+  Callback = function(L_340_arg0)
+    L_2_[24] = L_2_[23][L_340_arg0]
+    if L_2_[19] then
+      task.wait()
+      L_2_[19] = true
+      task.spawn(L_2_[22], L_2_[24].get, L_2_[24].dur, L_2_[24].tp)
+    end
+  end
+})
+_G.RocksSection:AddToggle({
+  Title = "Farm Rock",
+  Default = false,
+  Flag = "rock_farm_tp_active",
+  Callback = function(L_341_arg0)
+    L_2_[19] = L_341_arg0
+    if L_341_arg0 then
+      L_341_arg0 = L_2_[24]
+    end
+    if L_341_arg0 then
+      task.spawn(L_2_[22], L_2_[24].get, L_2_[24].dur, L_2_[24].tp)
+    end
+  end
+})
+_G.RebirthSection = _G.RebirthTab:AddSection({
+  Name = "Rebirth",
+  Open = false
+})
+local L_99_ = game:GetService("Players").LocalPlayer
+_G.rebirthParagraph = _G.RebirthSection:AddParagraph({
+  Title = "Rebirth",
+  Text = "Loading..."
+})
+L_2_[25] = L_99_:WaitForChild("leaderstats"):WaitForChild("Rebirths")
+local function L_100_func()
+  _G.rebirthParagraph:Set("Rebirth", "Current Rebirth: " .. tostring(L_2_[25].Value))
+end
+L_100_func()
+L_2_[25]:GetPropertyChangedSignal("Value"):Connect(L_100_func)
+L_2_[26] = 1
+L_2_[27] = game.Players.LocalPlayer.leaderstats.Rebirths.Value
+game.Players.LocalPlayer.leaderstats.Rebirths.Changed:Connect(function()
+  local L_342_ = game.Players.LocalPlayer.leaderstats.Rebirths.Value - L_2_[27]
+end)
+local L_101_ = game.Players.LocalPlayer.leaderstats.Rebirths.Value - L_2_[27]
+_G.RebirthSection:AddTextBox({
+  Title = "Target Rebirth Amount",
+  PlaceholderText = "Enter amount...",
+  Default = "1",
+  Flag = "TargetRebirth",
+  Callback = function(L_343_arg0)
+    L_2_[26] = tonumber(L_343_arg0) or 1
+    local L_344_ = game.Players.LocalPlayer.leaderstats.Rebirths.Value - L_2_[27]
+  end
+})
+L_2_[28] = nil
+_G.RebirthSection:AddToggle({
+  Title = "Auto Rebirth [Target]",
+  Default = false,
+  Flag = "AutoRebirthTarget",
+  Callback = function(L_345_arg0)
+    if L_345_arg0 then
+      L_2_[28] = task.spawn(function()
+        while task.wait(0.1) and not (game.Players.LocalPlayer.leaderstats.Rebirths.Value >= L_2_[26]) do
+          game:GetService("ReplicatedStorage").rEvents.rebirthRemote:InvokeServer("rebirthRequest")
+        end
+      end)
+      return
+    end
+    if L_2_[28] then
+      task.cancel(L_2_[28])
+    end
+  end
+})
+L_2_[29] = nil
+_G.RebirthSection:AddToggle({
+  Title = "Auto Rebirth [Infinite]",
+  Default = false,
+  Flag = "AutoRebirthInfinite",
+  Callback = function(L_346_arg0)
+    if L_346_arg0 then
+      L_2_[29] = task.spawn(function()
+        while task.wait(0.1) do
+          game:GetService("ReplicatedStorage").rEvents.rebirthRemote:InvokeServer("rebirthRequest")
+        end
+      end)
+      return
+    end
+    if L_2_[29] then
+      task.cancel(L_2_[29])
+    end
+  end
+})
+L_2_[30] = nil
+_G.RebirthSection:AddToggle({
+  Title = "Auto Size 1",
+  Default = false,
+  Flag = "AutoSize1",
+  Callback = function(L_347_arg0)
+    if L_347_arg0 then
+      L_2_[30] = task.spawn(function()
+        while task.wait(0) do
+          game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 1)
+        end
+      end)
+      return
+    end
+    if L_2_[30] then
+      task.cancel(L_2_[30])
+    end
+  end
+})
+L_2_[31] = nil
+_G.RebirthSection:AddToggle({
+  Title = "Auto Teleport to King",
+  Default = false,
+  Flag = "KingTeleport",
+  Callback = function(L_348_arg0)
+    if L_348_arg0 then
+      L_2_[31] = task.spawn(function()
+        while task.wait(0) do
+          if game.Players.LocalPlayer.Character then
+            game.Players.LocalPlayer.Character:MoveTo(Vector3.new(- 8751.1689453125, 121.40107727051, - 5858.5903320312))
+          end
+        end
+      end)
+      return
+    end
+    if L_2_[31] then
+      task.cancel(L_2_[31])
+    end
+  end
+})
+_G.RebirthSection:AddToggle({
+  Title = "Lock Pos",
+  Default = false,
+  Flag = "ToggleName",
+  Callback = function(L_349_arg0)
+    if L_349_arg0 then
+      local L_350_ = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+      getgenv().posLock = game:GetService("RunService").Heartbeat:Connect(function()
+        if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = L_350_
+        end
+      end)
+      return
+    end
+    if getgenv().posLock then
+      getgenv().posLock:Disconnect()
+    end
+  end
+})
+_G.RebirthPacksSection = _G.RebirthTab:AddSection({
+  Name = "Rebirth [Need Packs]",
+  Open = false
+})
+_G.RebirthPacksSection:AddTextBox({
+  Title = "Target Rebirth [Fast]",
+  Placeholder = "Enter target rebirth...",
+  Default = "50000",
+  Flag = "RebirthInput",
+  Callback = function(L_351_arg0)
+    G_1_ = tonumber(L_351_arg0) or 1e999
+  end
+})
+L_2_[32] = false
+L_2_[33] = nil
+L_2_[33] = function()
+  local L_352_ = game:GetService("Players").LocalPlayer.petsFolder
+  for L_353_forvar0, L_354_forvar1 in pairs(L_352_:GetChildren()) do
+    if L_354_forvar1:IsA("Folder") then
+      for L_355_forvar0, L_356_forvar1 in pairs(L_354_forvar1:GetChildren()) do
+        game:GetService("ReplicatedStorage").rEvents.equipPetEvent:fireServer("unequipPet", L_356_forvar1)
+      end
+    end
+  end
+  task.wait(0.1)
+end
+L_2_[34] = function(L_357_arg0)
+  L_2_[33]()
+  task.wait(0.01)
+  for L_358_forvar0, L_359_forvar1 in pairs(game:GetService("Players").LocalPlayer.petsFolder.Unique:GetChildren()) do
+    if L_357_arg0 == L_359_forvar1.Name then
+      game:GetService("ReplicatedStorage").rEvents.equipPetEvent:fireServer("equipPet", L_359_forvar1)
+    end
+  end
+end
+local function L_102_func(L_360_arg0)
+  local L_361_ = workspace.machinesFolder:FindFirstChild(L_360_arg0)
+  if not L_361_ then
+    for L_362_forvar0, L_363_forvar1 in pairs(workspace:GetChildren()) do
+      if L_363_forvar1:IsA("Folder") and L_363_forvar1.Name:find("machines") then
+        L_361_ = L_363_forvar1:FindFirstChild(L_360_arg0)
+        if L_361_ then
+          return L_361_
+        end
+      end
+    end
+  end
+  return L_361_
+end
+_G.RebirthPacksSection:AddToggle({
+  Title = "Fast Rebirths",
+  Default = false,
+  Flag = "UltimateFarm",
+  Callback = function(L_364_arg0)
+    L_2_[32] = L_364_arg0
+    getgenv().lift = L_364_arg0
+    if not L_364_arg0 then
+      L_2_[33]()
+      return
+    end
+    L_2_[33]()
+    task.wait(0.1)
+    L_2_[34]("Swift Samurai")
+    task.spawn(function()
+      while L_2_[32] do
+        local L_365_ = game.Players.LocalPlayer
+        local L_366_ = 10000 + 5000 * L_365_.leaderstats.Rebirths.Value
+        if L_365_.ultimatesFolder:FindFirstChild("Golden Rebirth") then
+          local L_368_ = L_365_.ultimatesFolder["Golden Rebirth"].Value
+          L_366_ = math.floor(L_366_ * (1 - L_368_ * 0.1))
+        end
+        local L_367_ = L_102_func("Jungle Bar Lift")
+        if L_367_ and L_367_:FindFirstChild("interactSeat") then
+          local L_369_ = L_365_.Character
+          if L_369_ and L_369_:FindFirstChild("HumanoidRootPart") then
+            L_369_.HumanoidRootPart.CFrame = L_367_.interactSeat.CFrame * CFrame.new(0, 3, 0)
+            task.wait(0.5)
+            L_19_func()
+          end
+        end
+        while L_2_[32] and L_366_ > L_365_.leaderstats.Strength.Value do
+          game:GetService("Players").LocalPlayer.muscleEvent:FireServer("rep")
+          task.wait(0.0001)
+        end
+        if L_366_ <= L_365_.leaderstats.Strength.Value then
+          L_2_[33]()
+          task.wait(0.2)
+          L_2_[34]("Tribal Overlord")
+          task.wait(0.3)
+          game:GetService("ReplicatedStorage").rEvents.rebirthRemote:InvokeServer("rebirthRequest")
+          L_2_[33]()
+          task.wait(0.2)
+          L_2_[34]("Swift Samurai")
+        end
+        if not L_2_[32] then
+          return
+        end
+        task.wait(0.1)
+      end
+    end)
+  end
+})
+_G.RebirthPacksSection:AddToggle({
+  Title = "Hide All Frames",
+  Default = false,
+  Flag = "FrameToggle",
+  Callback = function(L_370_arg0)
+    local L_371_ = game:GetService("ReplicatedStorage")
+    local L_372_ = L_371_.GetChildren
+    for L_373_forvar0, L_374_forvar1 in pairs(L_372_(L_371_)) do
+      if L_374_forvar1.Name:match("Frame$") then
+        L_374_forvar1.Visible = not L_370_arg0
+      end
+    end
+  end
+})
+L_2_[35] = 1
+_G.RebirthPacksSection:AddSlider({
+  Title = "Rep Multiplier",
+  Min = 1,
+  Max = 50,
+  Default = 1,
+  Flag = "RepMultiplier",
+  Callback = function(L_375_arg0)
+    L_2_[35] = L_375_arg0
+  end
+})
+_G.RebirthPacksSection:AddToggle({
+  Title = "Fast Rep [Works only with Swift Samurai]",
+  Default = false,
+  Flag = "SpeedGrind",
+  Callback = function(L_376_arg0)
+    if not L_376_arg0 then
+      L_2_[33]()
+      return
+    end
+    L_2_[34]("Swift Samurai")
+    for L_377_forvar0 = 1, L_2_[35] do
+      task.spawn(function()
+        while L_376_arg0 do
+          game:GetService("Players").LocalPlayer.muscleEvent:FireServer("rep")
+          task.wait()
+        end
+      end)
+    end
+  end
+})
+_G.WhitlistSection = _G.KillingTab:AddSection({
+  Name = "Whitelist",
+  Open = false
+})
+L_2_[36] = game:GetService("Players")
+L_2_[37] = function()
+  if not game.Players.LocalPlayer.Character then
+    local L_378_ = game.Players.LocalPlayer.Character
+    repeat
+      task.wait()
+    until game.Players.LocalPlayer.Character
+  end
+  return game.Players.LocalPlayer.Character
+end
+local function L_103_func(L_379_arg0)
+  local L_380_ = L_2_[37]()
+  if L_380_ and (L_379_arg0.Character and L_379_arg0.Character:FindFirstChild("HumanoidRootPart")) and L_380_:FindFirstChild("LeftHand") then
+    firetouchinterest(L_379_arg0.Character.HumanoidRootPart, L_380_.LeftHand, 0)
+    firetouchinterest(L_379_arg0.Character.HumanoidRootPart, L_380_.LeftHand, 1)
+    L_2_[11]()
+  end
+end
+L_2_[38] = {}
+L_2_[39] = ""
+local function L_104_func()
+  local L_381_ = {}
+  for L_382_forvar0, L_383_forvar1 in pairs(L_2_[38]) do
+    local L_384_ = L_382_forvar0
+    local L_385_ = L_2_[36]:FindFirstChild(L_384_)
+    if L_385_ then
+      table.insert(L_381_, L_385_.Name .. " | " .. L_385_.DisplayName)
+    else
+      table.insert(L_381_, L_384_)
+    end
+  end
+  return L_381_
+end
+L_2_[40] = function()
+  if _G.WhitelistedPlayersDropdown then
+    _G.WhitelistedPlayersDropdown:Set(L_104_func(), false)
+  end
+end
+L_2_[36].PlayerAdded:Connect(function(L_386_arg0)
+  local L_387_ = L_386_arg0.Name:lower()
+  local L_388_ = L_386_arg0.DisplayName:lower()
+  for L_389_forvar0, L_390_forvar1 in pairs(L_2_[38]) do
+    local L_391_ = L_389_forvar0
+    if L_387_ == L_391_:lower() or L_388_ == L_391_:lower() then
+      L_2_[38][L_386_arg0.Name] = true
+      L_2_[40]()
+      return
+    end
+  end
+end)
+L_2_[36].PlayerAdded:Connect(function(L_392_arg0)
+  local L_393_ = getgenv().autoWhitelistFriends
+  if L_393_ then
+    L_393_ = L_392_arg0:IsFriendsWith(L_2_[36].LocalPlayer.UserId)
+  end
+  if L_393_ then
+    L_2_[38][L_392_arg0.Name] = true
+    L_2_[40]()
+  end
+end)
+_G.WhitlistSection:AddTextBox({
+  Title = "Whitelist",
+  PlaceholderText = "Type here...",
+  Default = "",
+  Flag = "WhitelistInput",
+  Callback = function(L_394_arg0)
+    if L_394_arg0 ~= "" then
+      local L_395_ = L_394_arg0:lower()
+      for L_396_forvar0, L_397_forvar1 in pairs(L_2_[36]:GetPlayers()) do
+        if L_395_ == L_397_forvar1.Name:lower() or L_397_forvar1.DisplayName and L_395_ == L_397_forvar1.DisplayName:lower() then
+          L_2_[38][L_397_forvar1.Name] = true
+        end
+      end
+      L_2_[40]()
+    end
+  end
+})
+_G.WhitlistSection:AddToggle({
+  Title = "Auto Whitelist Friends",
+  Default = false,
+  Flag = "AutoWhitelistFriends",
+  Callback = function(L_398_arg0)
+    getgenv().autoWhitelistFriends = L_398_arg0
+    if L_398_arg0 then
+      for L_399_forvar0, L_400_forvar1 in pairs(L_2_[36]:GetPlayers()) do
+        if L_400_forvar1:IsFriendsWith(L_2_[36].LocalPlayer.UserId) then
+          L_2_[38][L_400_forvar1.Name] = true
+        end
+      end
+      L_2_[40]()
+    end
+  end
+})
+local L_105_ = _G
+local L_106_ = _G.WhitlistSection
+local L_107_ = L_104_func()
+L_105_.WhitelistedPlayersDropdown = L_106_:AddDropdown({
+  Title = "Whitelisted Players",
+  Options = L_107_,
+  Default = "",
+  Flag = "WhitelistedPlayersDropdown",
+  Callback = function(L_401_arg0)
+    local L_402_ = string.match(L_401_arg0, "^([^|%s]+)")
+    if L_402_ then
+      L_2_[39] = L_402_
+    end
+  end
+})
+_G.WhitlistSection:AddButton({
+  Title = "Refresh Whitelist",
+  Callback = function()
+    L_2_[40]()
+  end
+})
+_G.WhitlistSection:AddButton({
+  Title = "Clear All Whitelisted",
+  Callback = function()
+    table.clear(L_2_[38])
+    L_2_[40]()
+  end
+})
+_G.SpectateSection = _G.KillingTab:AddSection({
+  Name = "Spectate",
+  Open = false
+})
+local L_108_ = game:GetService("Players")
+L_2_[41] = nil
+L_2_[42] = L_108_
+L_2_[41] = nil
+L_2_[43] = nil
+local function L_109_func()
+  local L_403_ = {}
+  for L_404_forvar0, L_405_forvar1 in pairs(L_2_[42]:GetPlayers()) do
+    if L_405_forvar1 ~= L_2_[42].LocalPlayer then
+      table.insert(L_403_, L_405_forvar1.Name .. " | " .. L_405_forvar1.DisplayName)
+    end
+  end
+  return L_403_
+end
+L_2_[44] = function(L_406_arg0)
+  if L_2_[41] then
+    L_2_[41]:Disconnect()
+    L_2_[41] = nil
+  end
+  local function L_407_func()
+    if L_406_arg0 and (L_406_arg0.Character and L_406_arg0.Character:FindFirstChild("Humanoid")) then
+      workspace.CurrentCamera.CameraSubject = L_406_arg0.Character.Humanoid
+    end
+  end
+  L_407_func()
+  L_2_[41] = L_406_arg0.CharacterAdded:Connect(function(L_408_arg0)
+    L_408_arg0:WaitForChild("Humanoid")
+    L_407_func()
+  end)
+end
+local L_110_ = _G.SpectateSection
+local L_111_ = L_109_func()
+L_2_[45] = L_110_:AddDropdown({
+  Title = "Select Spectate",
+  Options = L_111_,
+  Default = "",
+  Flag = "SpectateDropdown",
+  Callback = function(L_409_arg0)
+    local L_410_ = string.match(L_409_arg0, "(.+) |")
+    if L_410_ then
+      L_2_[43] = L_2_[42]:FindFirstChild(L_410_)
+      if L_2_[43] then
+        L_2_[44](L_2_[43])
+      end
+    end
+  end
+})
+_G.SpectateSection:AddButton({
+  Title = "Refresh Player List",
+  Callback = function()
+    local L_411_ = L_109_func()
+    if L_2_[45] then
+      L_2_[45]:Set(L_411_, false)
+    end
+  end
+})
+_G.SpectateSection:AddButton({
+  Title = "Stop Spying",
+  Callback = function()
+    if L_2_[41] then
+      L_2_[41]:Disconnect()
+    end
+    if L_2_[42].LocalPlayer.Character and L_2_[42].LocalPlayer.Character:FindFirstChild("Humanoid") then
+      workspace.CurrentCamera.CameraSubject = L_2_[42].LocalPlayer.Character.Humanoid
+    end
+  end
+})
+local function L_112_func()
+  local L_412_ = L_109_func()
+  if L_2_[45] then
+    L_2_[45]:Set(L_412_, false)
+  end
+end
+L_2_[42].PlayerAdded:Connect(L_112_func)
+L_2_[42].PlayerRemoving:Connect(L_112_func)
+_G.PlayerKillingSection = _G.KillingTab:AddSection({
+  Name = "Killing",
+  Open = false
+})
+_G.PlayerKillingSection:AddToggle({
+  Title = "Start Killing",
+  Default = false,
+  Flag = "Kill_v2_Player",
+  Callback = function(L_413_arg0)
+    getgenv().killallv2 = L_413_arg0
+    task.spawn(function()
+      while getgenv().killallv2 do
+        for L_414_forvar0, L_415_forvar1 in ipairs(game:GetService("Players"):GetPlayers()) do
+          if L_415_forvar1 ~= game.Players.LocalPlayer and not L_2_[38][L_415_forvar1.Name] and (L_415_forvar1.Character and (L_415_forvar1.Character:FindFirstChild("Humanoid") and L_415_forvar1.Character.Humanoid.Health > 0)) then
+            L_103_func(L_415_forvar1)
+          end
+        end
+        task.wait()
+      end
+    end)
+  end
+})
+L_2_[46] = {}
+L_2_[47] = function()
+  L_2_[46] = {}
+  for L_416_forvar0, L_417_forvar1 in pairs(game:GetService("Players"):GetPlayers()) do
+    if L_417_forvar1 ~= game.Players.LocalPlayer then
+      table.insert(L_2_[46], L_417_forvar1.Name .. " | " .. L_417_forvar1.DisplayName)
+    end
+  end
+end
+L_2_[47]()
+local L_113_ = _G.PlayerKillingSection
+local L_114_ = L_2_[46]
+local L_115_ = L_2_[46][1] or ""
+L_2_[48] = L_113_:AddDropdown({
+  Title = "Select Target",
+  Options = L_114_,
+  Default = L_115_,
+  Flag = "PlayerList",
+  Callback = function(L_418_arg0)
+    L_2_[39] = string.match(L_418_arg0, "(.+) |")
+  end
+})
+_G.PlayerKillingSection:AddButton({
+  Title = "Refresh Player List",
+  Callback = function()
+    L_2_[47]()
+    if L_2_[48] then
+      L_2_[48]:Set(L_2_[46], false)
+    end
+  end
+})
+task.spawn(function()
+  while true do
+    L_2_[47]()
+    task.wait(5)
+  end
+end)
+game:GetService("Players").PlayerAdded:Connect(L_2_[47])
+game:GetService("Players").PlayerRemoving:Connect(L_2_[47])
+_G.PlayerKillingSection:AddToggle({
+  Title = "Kill Target Player",
+  Default = false,
+  Flag = "KillTargetToggle",
+  Callback = function(L_419_arg0)
+    getgenv().killTarget = L_419_arg0
+    task.spawn(function()
+      while getgenv().killTarget do
+        for L_420_forvar0, L_421_forvar1 in pairs(game.Players:GetPlayers()) do
+          local L_422_ = L_421_forvar1.Name:lower() == L_2_[39]:lower() or L_421_forvar1.DisplayName:lower() == L_2_[39]:lower()
+          if L_422_ then
+            L_422_ = L_421_forvar1 ~= game.Players.LocalPlayer
+          end
+          if L_422_ and (L_421_forvar1.Character and (L_421_forvar1.Character:FindFirstChild("Humanoid") and L_421_forvar1.Character.Humanoid.Health > 0)) then
+            L_103_func(L_421_forvar1)
+          end
+        end
+        task.wait()
+      end
+    end)
+    if not getgenv().killTarget then
+      local L_423_ = L_2_[37]()
+      if L_423_ and L_423_:FindFirstChild("Humanoid") then
+        L_423_.Humanoid:UnequipTools()
+      end
+    end
+  end
+})
+L_2_[49] = 75
+_G.PlayerKillingSection:AddTextBox({
+  Title = "Kill Aura Radius [75-350]",
+  Placeholder = "Enter radius...",
+  Default = "75",
+  Flag = "RadiusInput",
+  Callback = function(L_424_arg0)
+    L_2_[49] = math.clamp(tonumber(L_424_arg0) or 75, 1, 350)
+  end
+})
+local function L_116_func(L_425_arg0)
+  local L_426_ = Instance.new("Attachment", L_425_arg0)
+  local L_427_ = Instance.new("ParticleEmitter", L_426_)
+  L_427_.Texture = "rbxassetid://244905904"
+  L_427_.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 0)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 155, 0))
+  })
+  L_427_.Size = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 0.5),
+    NumberSequenceKeypoint.new(1, 0)
+  })
+  L_427_.Lifetime = NumberRange.new(0.5, 1)
+  L_427_.Rate = 50
+  L_427_.Speed = NumberRange.new(5, 10)
+  L_427_.SpreadAngle = Vector2.new(- 180, 180)
+  local L_428_ = Instance.new("Beam", L_425_arg0)
+  L_428_.Texture = "rbxassetid://446111271"
+  L_428_.TextureSpeed = 3
+  L_428_.Color = ColorSequence.new(Color3.fromRGB(0, 255, 0))
+  return {
+    L_427_,
+    L_428_
+  }
+end
+_G.PlayerKillingSection:AddToggle({
+  Title = "Matrix Kill Aura",
+  Default = false,
+  Flag = "Kill_Nearby",
+  Callback = function(L_429_arg0)
+    getgenv().killNearby = L_429_arg0
+    local L_430_ = Instance.new("Part")
+    L_430_.Anchored = true
+    L_430_.CanCollide = false
+    L_430_.Transparency = 0.8
+    L_430_.Material = Enum.Material.ForceField
+    L_430_.Color = Color3.fromRGB(0, 255, 0)
+    L_430_.Size = Vector3.new(1, 0.1, 1)
+    task.spawn(function()
+      while getgenv().killNearby do
+        pcall(function()
+          local L_431_ = game.Players.LocalPlayer.Character
+          local L_432_ = L_431_ and L_431_:FindFirstChild("HumanoidRootPart")
+          if L_432_ then
+            L_430_.Parent = workspace
+            L_430_.Size = Vector3.new(L_2_[49] * 2, 0.1, L_2_[49] * 2)
+            L_430_.CFrame = L_432_.CFrame * CFrame.new(0, - 2, 0)
+            local L_433_ = L_116_func(L_432_)
+            for L_434_forvar0, L_435_forvar1 in pairs(game:GetService("Players"):GetPlayers()) do
+              if L_435_forvar1 ~= game.Players.LocalPlayer and not L_2_[38][L_435_forvar1.Name] then
+                local L_436_ = L_435_forvar1.Character
+                local L_437_ = L_436_ and L_436_:FindFirstChild("HumanoidRootPart")
+                if L_437_ and (L_432_ and L_431_:FindFirstChild("LeftHand")) and (L_437_.Position - L_432_.Position).Magnitude <= L_2_[49] then
+                  local L_438_ = Instance.new("Part")
+                  L_438_.Anchored = true
+                  L_438_.CanCollide = false
+                  L_438_.Transparency = 0.5
+                  L_438_.Material = Enum.Material.Neon
+                  L_438_.Color = Color3.fromRGB(0, 255, 0)
+                  L_438_.CFrame = L_437_.CFrame
+                  L_438_.Size = Vector3.new(5, 5, 5)
+                  L_438_.Parent = workspace
+                  game:GetService("TweenService"):Create(L_438_, TweenInfo.new(0.5), {
+                    Size = Vector3.new(0, 0, 0),
+                    Transparency = 1
+                  }):Play()
+                  game:GetService("Debris"):AddItem(L_438_, 0.5)
+                  firetouchinterest(L_437_, L_431_.LeftHand, 0)
+                  task.wait()
+                  firetouchinterest(L_437_, L_431_.LeftHand, 1)
+                  L_2_[11]()
+                end
+              end
+            end
+            task.wait(0.1)
+            for L_439_forvar0, L_440_forvar1 in ipairs(L_433_) do
+              L_440_forvar1:Destroy()
+            end
+          end
+        end)
+        task.wait(0.1)
+      end
+      L_430_:Destroy()
+    end)
+  end
+})
+_G.CrystalSection = _G.CrystalsTab:AddSection({
+  Name = "Crystals",
+  Open = false
+})
+local L_117_ = game:GetService("ReplicatedStorage"):WaitForChild("gameCrystals")
+local L_118_ = {}
+local L_119_ = L_117_.GetChildren
+for L_441_forvar0, L_442_forvar1 in pairs(L_119_(L_117_)) do
+  table.insert(L_118_, L_442_forvar1.Name)
+end
+table.sort(L_118_)
+L_2_[50] = L_118_[1] or ""
+local L_120_ = _G.CrystalSection
+local L_121_ = L_2_[50]
+L_120_:AddDropdown({
+  Title = "Select Crystal",
+  Options = L_118_,
+  Default = L_121_,
+  Flag = "SelectedCrystal",
+  Callback = function(L_443_arg0)
+    L_2_[50] = L_443_arg0
+  end
+})
+_G.CrystalSection:AddToggle({
+  Title = "Auto Open Crystal",
+  Default = false,
+  Flag = "AutoOpenCrystal",
+  Callback = function(L_444_arg0)
+    _G.AutoOpenCrystal = L_444_arg0
+    task.spawn(function()
+      while _G.AutoOpenCrystal do
+        if L_2_[50] ~= "" then
+          game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer("openCrystal", L_2_[50])
+        end
+        task.wait(0.5)
+      end
+    end)
+  end
+})
+_G.BuySection = _G.CrystalsTab:AddSection({
+  Name = "Buy Pets | Auras",
+  Open = false
+})
+local L_122_ = {}
+local L_123_ = game:GetService("ReplicatedStorage"):FindFirstChild("cPetShopFolder")
+if L_123_ then
+  for L_445_forvar0, L_446_forvar1 in pairs(L_123_:GetChildren()) do
+    table.insert(L_122_, L_446_forvar1.Name)
+  end
+end
+L_2_[51] = L_122_[1] or ""
+local L_124_ = _G.BuySection
+local L_125_ = L_122_[1] or ""
+L_124_:AddDropdown({
+  Title = "Select Pets I Auras",
+  Options = L_122_,
+  Default = L_125_,
+  Flag = "pet_city_selected",
+  Callback = function(L_447_arg0)
+    L_2_[51] = L_447_arg0
+  end
+})
+_G.BuySection:AddButton({
+  Title = "Buy Selected Pets I Auras",
+  Callback = function()
+    local L_448_ = L_2_[51]
+    local L_449_ = game:GetService("ReplicatedStorage"):FindFirstChild("cPetShopFolder")
+    if L_449_ and L_448_ then
+      local L_450_ = L_449_:FindFirstChild(L_448_)
+      if L_450_ then
+        local L_451_ = {
+          [1] = L_450_
+        }
+        game:GetService("ReplicatedStorage").cPetShopRemote:InvokeServer(unpack(L_451_))
+      end
+    end
+  end
+})
+_G.BuySection:AddToggle({
+  Title = "Auto Buy Selected Pets I Auras",
+  Default = false,
+  Flag = "auto_hatch_selected",
+  Callback = function(L_452_arg0)
+    _G.AutoHatchSelected = L_452_arg0
+    if L_452_arg0 then
+      task.spawn(function()
+        while _G.AutoHatchSelected do
+          local L_453_ = L_2_[51]
+          local L_454_ = game:GetService("ReplicatedStorage"):FindFirstChild("cPetShopFolder")
+          if L_454_ and L_453_ then
+            local L_455_ = L_454_:FindFirstChild(L_453_)
+            if L_455_ then
+              local L_456_ = game
+              local L_457_ = {
+                [1] = L_455_
+              }
+              local L_458_ = L_456_:GetService("ReplicatedStorage").cPetShopRemote
+              local L_459_ = {
+                unpack(L_457_)
+              }
+              L_458_:InvokeServer(L_1_(L_459_))
+            end
+          end
+          task.wait(0.5)
+        end
+      end)
+    end
+  end
+})
+_G.RobuxPetsSection = _G.CrystalsTab:AddSection({
+  Name = "Equip Pets [Robux Pets]",
+  Open = false
+})
+local L_126_ = {
+  ["Swift Samurai"] = "Equip All Swift Samurai",
+  ["Tribal Overlord"] = "Equip All Tribal Overlord",
+  ["Mighty Monster"] = "Equip All Mighty Monster",
+  ["Wild Wizard"] = "Equip All Wild Wizard"
+}
+for L_460_forvar0, L_461_forvar1 in pairs(L_126_) do
+  _G.RobuxPetsSection:AddButton({
+    Title = L_461_forvar1,
+    Callback = function()
+      L_2_[33]()
+      for L_462_forvar0, L_463_forvar1 in pairs(game:GetService("Players").LocalPlayer.petsFolder.Unique:GetChildren()) do
+        if L_463_forvar1.Name == L_460_forvar0 then
+          game:GetService("ReplicatedStorage").rEvents.equipPetEvent:fireServer("equipPet", L_463_forvar1)
+        end
+      end
+    end
+  })
+end
+local L_127_ = CFrame.new(2, 8, 115)
+local L_128_ = {
+  title = "Spawn",
+  pos = L_127_
+}
+local L_129_ = CFrame.new(1947, 2, 6191)
+local L_130_ = {
+  title = "Secret",
+  pos = L_129_
+}
+local L_131_ = CFrame.new(- 34, 7, 1903)
+local L_132_ = {
+  title = "Tiny",
+  pos = L_131_
+}
+local L_133_ = CFrame.new(- 2600.00244, 3.67686558, - 403.884369, 0.0873617008, 1.0482899E-09, 0.99617666, 3.07204253E-08, 1, - 3.7464023E-09, - 0.99617666, 3.09302628E-08, 0.0873617008)
+local L_134_ = {
+  title = "Frozen",
+  pos = L_133_
+}
+local L_135_ = CFrame.new(2255, 7, 1071)
+local L_136_ = {
+  title = "Mythical",
+  pos = L_135_
+}
+local L_137_ = CFrame.new(- 6768, 7, - 1287)
+local L_138_ = {
+  title = "Inferno",
+  pos = L_137_
+}
+local L_139_ = CFrame.new(4604, 991, - 3887)
+local L_140_ = {
+  title = "Legend",
+  pos = L_139_
+}
+local L_141_ = CFrame.new(- 8646, 17, - 5738)
+local L_142_ = {
+  title = "Muscle King",
+  pos = L_141_
+}
+local L_143_ = CFrame.new(- 8659, 6, 2384)
+local L_144_ = {
+  title = "Jungle",
+  pos = L_143_
+}
+local L_145_ = CFrame.new(4471, 119, - 8836)
+local L_146_ = {
+  title = "Lava Brawl",
+  pos = L_145_
+}
+local L_147_ = CFrame.new(960, 17, - 7398)
+local L_148_ = {
+  title = "Desert Brawl",
+  pos = L_147_
+}
+local L_149_ = CFrame.new(- 1849, 20, - 6335)
+local L_150_ = {
+  title = "Beach Brawl",
+  pos = L_149_
+}
+for L_464_forvar0, L_465_forvar1 in ipairs({
+  L_128_,
+  L_130_,
+  L_132_,
+  L_134_,
+  L_136_,
+  L_138_,
+  L_140_,
+  L_142_,
+  L_144_,
+  L_146_,
+  L_148_,
+  L_150_
+}) do
+  local L_466_ = L_465_forvar1.pos
+  _G.TeleportTab:AddButton({
+    Title = "Teleport to " .. L_465_forvar1.title,
+    Callback = function()
+      local L_467_ = game.Players.LocalPlayer;
+      (L_467_.Character or L_467_.CharacterAdded:Wait()):WaitForChild("HumanoidRootPart").CFrame = L_466_
+    end
+  })
+end
+_G.PlayerStatsSection = _G.StatsTab:AddSection({
+  Name = "Player Stats",
+  Open = false
+})
+game:GetService("RunService")
+L_2_[52] = game.Players.LocalPlayer
+L_2_[53] = 0
+L_2_[54] = os.time()
+L_2_[55] = false
+L_2_[56] = 0
+L_2_[57] = nil
+L_2_[58] = 0
+L_2_[59] = nil
+L_2_[60] = 0
+L_2_[61] = nil
+L_2_[62] = 0
+L_2_[63] = nil
+L_2_[64] = 0
+L_2_[65] = nil
+L_2_[66] = 0
+L_2_[67] = nil
+L_2_[68] = 0
+L_2_[69] = nil
+L_2_[70] = 0
+L_2_[71] = nil
+L_2_[72] = 0
+L_2_[73] = nil
+L_2_[74] = function(L_468_arg0)
+  local L_469_ = tostring((math.floor(L_468_arg0)))
+  repeat
+    local count
+    str, count = string.gsub(str, "^(-?%d+)(%d%d%d)", "%1,%2")
+  until count == 0
+  return L_469_
+end
+L_2_[75] = function(L_470_arg0)
+  local L_471_ = math.floor(L_470_arg0 / 86400)
+  local L_472_ = math.floor(L_470_arg0 % 86400 / 3600)
+  local L_473_ = math.floor(L_470_arg0 % 3600 / 60)
+  local L_474_ = L_470_arg0 % 60
+  return string.format("%dd %dh %dm %ds", L_471_, L_472_, L_473_, L_474_)
+end
+L_2_[76] = _G.PlayerStatsSection:AddParagraph({
+  Title = "â±\239\184\143 Session Time",
+  Text = "0d 0h 0m 0s"
+})
+L_2_[77] = _G.PlayerStatsSection:AddParagraph({
+  Title = "â±\239\184\143 Custom Timer",
+  Text = "Timer not started"
+})
+_G.PlayerStatsSection:AddButton({
+  Title = "Start/Stop Timer",
+  Callback = function()
+    if not L_2_[55] then
+      L_2_[53] = os.time()
+      L_2_[55] = true
+      L_2_[77]:Set("â±\239\184\143 Custom Timer", "Timer running...")
+      return
+    end
+    L_2_[55] = false
+    L_2_[77]:Set("â±\239\184\143 Custom Timer", "Timer stopped")
+  end
+})
+L_2_[78] = _G.PlayerStatsSection:AddParagraph({
+  Title = "ðŸ“Š Leaderboard Stats",
+  Text = "Loading..."
+})
+L_2_[79] = _G.PlayerStatsSection:AddParagraph({
+  Title = "ðŸ’ª Player Stats",
+  Text = "Loading..."
+})
+_G.StatsTrackerSection = _G.StatsTab:AddSection({
+  Name = "Player Stats Tracker",
+  Open = false
+})
+L_2_[80] = game:GetService("Players")
+L_2_[81] = ""
+L_2_[82] = _G.StatsTrackerSection:AddParagraph({
+  Title = "ðŸ“Š Tracking",
+  Text = "No player selected"
+})
+L_2_[83] = function()
+  local L_475_ = {}
+  for L_476_forvar0, L_477_forvar1 in pairs(L_2_[80]:GetPlayers()) do
+    table.insert(L_475_, L_477_forvar1.Name .. " | " .. L_477_forvar1.DisplayName)
+  end
+  return L_475_
+end
+local L_151_ = _G.StatsTrackerSection
+local L_152_ = L_2_[83]()
+L_2_[84] = L_151_:AddDropdown({
+  Title = "Select Player",
+  Options = L_152_,
+  Default = "",
+  Flag = "TrackDropdown",
+  Callback = function(L_478_arg0)
+    L_2_[81] = string.match(L_478_arg0, "(.+) |")
+  end
+})
+_G.StatsTrackerSection:AddButton({
+  Title = "Refresh List",
+  Callback = function()
+    if L_2_[84] then
+      L_2_[84]:Set(L_2_[83](), false)
+    end
+  end
+})
+_G.StatsTrackerSection:AddButton({
+  Title = "Track Player Stats",
+  Callback = function()
+    local L_479_ = L_2_[80]:FindFirstChild(L_2_[81])
+    if L_479_ then
+      L_2_[82]:Set("ðŸ“Š Tracking: " .. L_479_.Name, string.format("Strength: %s\nRebirths: %s\nKills: %s\nBrawls: %s\nGood Karma: %s\nEvil Karma: %s\nDurability: %s\nAgility: %s", L_2_[74](L_479_.leaderstats.Strength.Value), L_2_[74](L_479_.leaderstats.Rebirths.Value), L_2_[74](L_479_.leaderstats.Kills.Value), L_2_[74](L_479_.leaderstats.Brawls.Value), L_2_[74](L_479_.goodKarma.Value), L_2_[74](L_479_.evilKarma.Value), L_2_[74](L_479_.Durability.Value), L_2_[74](L_479_.Agility.Value)))
+      return
+    end
+    L_2_[82]:Set("ðŸ“Š Tracking", "Player not found")
+  end
+})
+local function L_153_func()
+  if L_2_[84] then
+    L_2_[84]:Set(L_2_[83](), false)
+  end
+end
+L_2_[80].PlayerAdded:Connect(L_153_func)
+L_2_[80].PlayerRemoving:Connect(L_153_func)
+game:IsLoaded()
+repeat
+  task.wait()
+until game:IsLoaded()
+if not L_2_[52].Character then
+  L_2_[52].CharacterAdded:Wait()
+end
+if L_2_[52]:FindFirstChild("leaderstats") then
+  L_2_[52]:FindFirstChild("goodKarma")
+end
+repeat
+  task.wait()
+until t1[52]:FindFirstChild("leaderstats") and t1[52]:FindFirstChild("goodKarma")
+task.spawn(function()
+  while true do
+    task.wait(1)
+    L_2_[76]:Set("â±\239\184\143 Session Time", L_2_[75](os.time() - L_2_[54]))
+    if L_2_[55] then
+      L_2_[77]:Set("â±\239\184\143 Custom Timer", L_2_[75](os.time() - L_2_[53]))
+    end
+    local L_480_ = L_2_[52].leaderstats.Strength.Value
+    local L_481_ = L_2_[52].leaderstats.Rebirths.Value
+    local L_482_ = L_2_[52].leaderstats.Kills.Value
+    local L_483_ = L_2_[52].leaderstats.Brawls.Value
+    local L_484_ = L_2_[52].goodKarma.Value
+    local L_485_ = L_2_[52].evilKarma.Value
+    local L_486_ = L_2_[52].Durability.Value
+    local L_487_ = L_2_[52].Agility.Value
+    local L_488_ = L_2_[52].muscleKingTime.Value
+    if L_2_[57] == nil then
+      L_2_[57] = L_480_
+    elseif L_480_ > L_2_[57] then
+      L_2_[56] = L_2_[56] + (L_480_ - L_2_[57])
+    end
+    L_2_[57] = L_480_
+    if L_2_[59] == nil then
+      L_2_[59] = L_481_
+    elseif L_481_ > L_2_[59] then
+      L_2_[58] = L_2_[58] + (L_481_ - L_2_[59])
+    end
+    L_2_[59] = L_481_
+    if L_2_[61] == nil then
+      L_2_[61] = L_482_
+    elseif L_482_ > L_2_[61] then
+      local L_491_ = L_2_[61]
+      L_2_[60] = L_2_[60] + (L_482_ - L_491_)
+    end
+    L_2_[61] = L_482_
+    if L_2_[63] == nil then
+      L_2_[63] = L_483_
+    elseif L_483_ > L_2_[63] then
+      local L_492_ = L_2_[63]
+      L_2_[62] = L_2_[62] + (L_483_ - L_492_)
+    end
+    L_2_[63] = L_483_
+    if L_2_[65] == nil then
+      L_2_[65] = L_484_
+    elseif L_484_ > L_2_[65] then
+      local L_493_ = L_2_[65]
+      L_2_[64] = L_2_[64] + (L_484_ - L_493_)
+    end
+    L_2_[65] = L_484_
+    if L_2_[67] == nil then
+      L_2_[67] = L_485_
+    elseif L_485_ > L_2_[67] then
+      local L_494_ = L_2_[67]
+      L_2_[66] = L_2_[66] + (L_485_ - L_494_)
+    end
+    L_2_[67] = L_485_
+    if L_2_[69] == nil then
+      L_2_[69] = L_486_
+    elseif L_486_ > L_2_[69] then
+      local L_495_ = L_2_[69]
+      L_2_[68] = L_2_[68] + (L_486_ - L_495_)
+    end
+    L_2_[69] = L_486_
+    if L_2_[71] == nil then
+      L_2_[71] = L_487_
+    elseif L_487_ > L_2_[71] then
+      local L_496_ = L_2_[71]
+      L_2_[70] = L_2_[70] + (L_487_ - L_496_)
+    end
+    L_2_[71] = L_487_
+    if L_2_[73] == nil then
+      L_2_[73] = L_488_
+    elseif L_488_ > L_2_[73] then
+      local L_497_ = L_488_ - L_2_[73]
+      L_2_[72] = L_2_[72] + L_497_
+    end
+    L_2_[73] = L_488_
+    local L_489_ = L_2_[78]
+    local L_490_ = {
+      string.format("Strength: %s  (+%s)\nRebirths: %s  (+%s)\nKills: %s  (+%s)\nBrawls: %s  (+%s)", L_2_[74](L_480_), L_2_[74](L_2_[56]), L_2_[74](L_481_), L_2_[74](L_2_[58]), L_2_[74](L_482_), L_2_[74](L_2_[60]), L_2_[74](L_483_), L_2_[74](L_2_[62]))
+    }
+    L_489_:Set("ðŸ“Š Leaderboard Stats", L_1_(L_490_))
+    L_2_[79]:Set("ðŸ’ª Player Stats", string.format("Good Karma: %s  (+%s)\nEvil Karma: %s  (+%s)\nDurability: %s  (+%s)\nAgility: %s  (+%s)\nMuscle King Time: %s  (+%s)", L_2_[74](L_484_), L_2_[74](L_2_[64]), L_2_[74](L_485_), L_2_[74](L_2_[66]), L_2_[74](L_486_), L_2_[74](L_2_[68]), L_2_[74](L_487_), L_2_[74](L_2_[70]), L_2_[74](L_488_), L_2_[74](L_2_[72])))
+  end
+end)
+_G.MiscSection = _G.MiscTab:AddSection({
+  Name = "Misc",
+  Open = false
+})
+_G.MiscSection:AddDropdown({
+  Title = "Time Changer",
+  Options = {
+    "Morning",
+    "Day",
+    "Night"
+  },
+  Default = "Day",
+  Flag = "TimeControl",
+  Callback = function(L_498_arg0)
+    local L_499_ = {
+      Morning = 7,
+      Day = 14,
+      Night = 0
+    }
+    game:GetService("Lighting").ClockTime = L_499_[L_498_arg0]
+  end
+})
+_G.MiscSection:AddButton({
+  Title = "Less Lag",
+  Callback = function()
+    for L_501_forvar0, L_502_forvar1 in pairs(game:GetDescendants()) do
+      local L_503_ = L_502_forvar1:IsA("ParticleEmitter")
+      if not L_503_ then
+        L_503_ = L_502_forvar1:IsA("Trail")
+        if not L_503_ then
+          L_503_ = L_502_forvar1:IsA("Smoke") or (L_502_forvar1:IsA("Fire") or L_502_forvar1:IsA("Sparkles"))
+        end
+      end
+      if L_503_ then
+        L_502_forvar1.Enabled = false
+      end
+    end
+    local L_500_ = game:GetService("Lighting")
+    L_500_.GlobalShadows = false
+    L_500_.FogEnd = 9000000000
+    for L_504_forvar0, L_505_forvar1 in pairs(workspace:GetDescendants()) do
+      if L_505_forvar1:IsA("BasePart") and not L_505_forvar1.Parent:FindFirstChild("Humanoid") then
+        L_505_forvar1.Material = Enum.Material.SmoothPlastic
+        if L_505_forvar1:IsA("Texture") then
+          L_505_forvar1:Destroy()
+        end
+      end
+    end
+    settings().Rendering.QualityLevel = 1
+  end
+})
+_G.MiscSection:AddButton({
+  Title = "Anti Rebirth",
+  Callback = function()
+    local L_506_
+    L_506_ = hookmetamethod(game, "__namecall", function(L_507_arg0, ...)
+      local L_508_ = {
+        ...
+      }
+      if L_507_arg0.Name == "rebirthRemote" and L_508_[1] == "rebirthRequest" then
+        return
+      end
+      local L_509_ = unpack
+      return L_506_(L_507_arg0, L_509_(L_508_))
+    end)
+  end
+})
+_G.MiscSection:AddButton({
+  Title = "Anti Accept Trade",
+  Callback = function()
+    local L_510_
+    L_510_ = hookmetamethod(game, "__namecall", function(L_511_arg0, ...)
+      local L_512_ = {
+        ...
+      }
+      if L_511_arg0.Name == "tradingEvent" and L_512_[1] == "acceptTrade" then
+        return
+      end
+      local L_513_ = unpack
+      return L_510_(L_511_arg0, L_513_(L_512_))
+    end)
+  end
+})
+_G.MiscSection:AddToggle({
+  Title = "Remove Portals",
+  Default = false,
+  Flag = "AntiPortal",
+  Callback = function(L_514_arg0)
+    if L_514_arg0 then
+      for L_515_forvar0, L_516_forvar1 in pairs(game:GetDescendants()) do
+        if L_516_forvar1.Name == "RobloxForwardPortals" then
+          L_516_forvar1:Destroy()
+        end
+      end
+      game.DescendantAdded:Connect(function(L_517_arg0)
+        if L_517_arg0.Name == "RobloxForwardPortals" then
+          L_517_arg0:Destroy()
+        end
+      end)
+    end
+  end
+})
+_G.PerfomanceSection = _G.MiscTab:AddSection({
+  Name = "Perfomance",
+  Open = false
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "Reduce Graphics",
+  Default = false,
+  Flag = "ml_reduce_graphics",
+  Callback = function(L_518_arg0)
+    if L_518_arg0 then
+      settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+    end
+  end
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "Disable Shadows",
+  Default = false,
+  Flag = "ml_disable_shadows",
+  Callback = function(L_519_arg0)
+    if L_519_arg0 then
+      game:GetService("Lighting").GlobalShadows = false
+    end
+  end
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "Disable Effects",
+  Default = false,
+  Flag = "ml_disable_effects",
+  Callback = function(L_520_arg0)
+    if L_520_arg0 then
+      for L_521_forvar0, L_522_forvar1 in pairs(game:GetDescendants()) do
+        local L_523_ = L_522_forvar1:IsA("ParticleEmitter")
+        if not L_523_ then
+          L_523_ = L_522_forvar1:IsA("Smoke") or (L_522_forvar1:IsA("Fire") or L_522_forvar1:IsA("Sparkles"))
+        end
+        if L_523_ then
+          L_522_forvar1.Enabled = false
+        end
+      end
+      for L_524_forvar0, L_525_forvar1 in pairs(game:GetService("Lighting"):GetChildren()) do
+        local L_526_ = L_525_forvar1:IsA("BlurEffect")
+        if not L_526_ then
+          L_526_ = L_525_forvar1:IsA("SunRaysEffect")
+          if not L_526_ then
+            L_526_ = L_525_forvar1:IsA("ColorCorrectionEffect") or (L_525_forvar1:IsA("BloomEffect") or L_525_forvar1:IsA("DepthOfFieldEffect"))
+          end
+        end
+        if L_526_ then
+          L_525_forvar1.Enabled = false
+        end
+      end
+    end
+  end
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "Simple Materials",
+  Default = false,
+  Flag = "ml_simplify_materials",
+  Callback = function(L_527_arg0)
+    if L_527_arg0 then
+      for L_528_forvar0, L_529_forvar1 in pairs(game:GetDescendants()) do
+        if L_529_forvar1:IsA("BasePart") and not L_529_forvar1:IsA("MeshPart") then
+          L_529_forvar1.Material = Enum.Material.SmoothPlastic
+          local L_530_ = L_529_forvar1.Parent
+          if L_530_ then
+            L_530_ = L_530_:FindFirstChild("Humanoid") or L_530_.Parent and L_530_.Parent:FindFirstChild("Humanoid")
+          end
+          if not L_530_ then
+            L_529_forvar1.Reflectance = 0
+          end
+        end
+      end
+    end
+  end
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "Remove Fog",
+  Default = false,
+  Flag = "ml_remove_fog",
+  Callback = function(L_531_arg0)
+    if L_531_arg0 then
+      game:GetService("Lighting").FogEnd = 10000000000
+    end
+  end
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "Anti Lag",
+  Default = false,
+  Flag = "ml_anti_lag",
+  Callback = function(L_532_arg0)
+    if L_532_arg0 then
+      for L_534_forvar0, L_535_forvar1 in pairs(game:GetDescendants()) do
+        if L_535_forvar1:IsA("Decal") or L_535_forvar1:IsA("Texture") then
+          L_535_forvar1:Destroy()
+        elseif L_535_forvar1:IsA("PointLight") or (L_535_forvar1:IsA("SurfaceLight") or L_535_forvar1:IsA("SpotLight")) then
+          L_535_forvar1.Enabled = false
+        elseif L_535_forvar1:IsA("Sound") then
+          L_535_forvar1:Stop()
+        elseif L_535_forvar1:IsA("Explosion") or L_535_forvar1:IsA("Debris") then
+          L_535_forvar1:Destroy()
+        end
+      end
+      local L_533_ = workspace:FindFirstChildOfClass("Terrain")
+      if L_533_ then
+        L_533_.WaterWaveSize = 0
+        L_533_.WaterWaveSpeed = 0
+        L_533_.WaterReflectance = 0
+        L_533_.WaterTransparency = 1
+        L_533_.Decorations = false
+      end
+    end
+  end
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "FPS Booster",
+  Default = false,
+  Flag = "ml_ultra_fps",
+  Callback = function(L_536_arg0)
+    if L_536_arg0 then
+      settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+      settings().Rendering.MeshPartDetailLevel = Enum.MeshPartDetailLevel.Level01
+      settings().Rendering.EagerBulkExecution = true
+      settings().Rendering.ReloadAssets = false
+      local L_537_ = game:GetService("Lighting")
+      L_537_.GlobalShadows = false
+      L_537_.FogEnd = 10000000000
+      L_537_.Brightness = 0
+      L_537_.EnvironmentDiffuseScale = 0
+      L_537_.EnvironmentSpecularScale = 0
+      for L_539_forvar0, L_540_forvar1 in ipairs(game:GetDescendants()) do
+        local L_541_ = L_540_forvar1:IsA("ParticleEmitter")
+        if not L_541_ then
+          L_541_ = L_540_forvar1:IsA("Trail")
+          if not L_541_ then
+            L_541_ = L_540_forvar1:IsA("Smoke") or (L_540_forvar1:IsA("Fire") or L_540_forvar1:IsA("Sparkles"))
+          end
+        end
+        if L_541_ then
+          L_540_forvar1:Destroy()
+        elseif L_540_forvar1:IsA("PointLight") or (L_540_forvar1:IsA("SpotLight") or L_540_forvar1:IsA("SurfaceLight")) then
+          L_540_forvar1.Enabled = false
+        elseif L_540_forvar1:IsA("Sound") then
+          L_540_forvar1:Stop()
+          L_540_forvar1.Volume = 0
+        elseif L_540_forvar1:IsA("Decal") or L_540_forvar1:IsA("Texture") then
+          L_540_forvar1:Destroy()
+        elseif L_540_forvar1:IsA("Accessory") or L_540_forvar1:IsA("Clothing") then
+          L_540_forvar1:Destroy()
+        end
+      end
+      local L_538_ = workspace:FindFirstChildOfClass("Terrain")
+      if L_538_ then
+        L_538_.WaterWaveSize = 0
+        L_538_.WaterWaveSpeed = 0
+        L_538_.WaterReflectance = 0
+        L_538_.WaterTransparency = 1
+        L_538_.Decorations = false
+      end
+    end
+  end
+})
+_G.PerfomanceSection:AddToggle({
+  Title = "Full Optimization",
+  Default = false,
+  Flag = "ml_full_opti",
+  Callback = function(L_542_arg0)
+    if L_542_arg0 then
+      for L_544_forvar0, L_545_forvar1 in pairs(game:GetDescendants()) do
+        if L_545_forvar1:IsA("ParticleEmitter") or (L_545_forvar1:IsA("Smoke") or (L_545_forvar1:IsA("Fire") or L_545_forvar1:IsA("Sparkles"))) then
+          L_545_forvar1.Enabled = false
+        elseif L_545_forvar1:IsA("Decal") or L_545_forvar1:IsA("Texture") then
+          L_545_forvar1.Transparency = 1
+        elseif L_545_forvar1:IsA("BasePart") and not L_545_forvar1:IsA("MeshPart") then
+          L_545_forvar1.Material = Enum.Material.SmoothPlastic
+          local L_546_ = L_545_forvar1.Parent
+          if L_546_ then
+            L_546_ = L_546_:FindFirstChild("Humanoid") or L_546_.Parent and L_546_.Parent:FindFirstChild("Humanoid")
+          end
+          if not L_546_ then
+            L_545_forvar1.Reflectance = 0
+          end
+        end
+      end
+      local L_543_ = game:GetService("Lighting")
+      L_543_.GlobalShadows = false
+      L_543_.FogEnd = 9000000000
+      L_543_.Brightness = 0
+      settings().Rendering.QualityLevel = 1
+      for L_547_forvar0, L_548_forvar1 in pairs(L_543_:GetChildren()) do
+        local L_549_ = L_548_forvar1:IsA("BlurEffect")
+        if not L_549_ then
+          L_549_ = L_548_forvar1:IsA("SunRaysEffect")
+          if not L_549_ then
+            L_549_ = L_548_forvar1:IsA("ColorCorrectionEffect") or (L_548_forvar1:IsA("BloomEffect") or L_548_forvar1:IsA("DepthOfFieldEffect"))
+          end
+        end
+        if L_549_ then
+          L_548_forvar1.Enabled = false
+        end
+      end
+    end
+  end
+})
+_G.ThemeSection = _G.SettingsTab:AddSection({
+  Name = "Theme",
+  Open = false
+})
+_G.ThemeSection:AddDropdown({
+  Title = "Theme",
+  Options = {
+    "Darker",
+    "Dark",
+    "Purple",
+    "Ocean",
+    "Crimson",
+    "Emerald",
+    "Sunset",
+    "Midnight",
+    "Rose",
+    "Monochrome",
+    "Arctic",
+    "Amber",
+    "Neon",
+    "Sakura",
+    "Forest",
+    "Lava",
+    "Aqua",
+    "Sand",
+    "Lilac",
+    "Slate",
+    "Toxic",
+    "Copper",
+    "Glacier",
+    "Obsidian",
+    "Peach",
+    "Cobalt",
+    "Infrared",
+    "Teal",
+    "Gold",
+    "Void",
+    "Mint",
+    "Blush",
+    "Dusk",
+    "Storm",
+    "Rust",
+    "Jade",
+    "Horizon",
+    "Plum",
+    "IceBlue",
+    "Mocha",
+    "Magenta",
+    "Carbon",
+    "Marine",
+    "Parchment",
+    "Indigo",
+    "Scarlet",
+    "Blossom",
+    "Eclipse",
+    "Olive",
+    "Frostbite",
+    "Ember",
+    "Nautical",
+    "Vine",
+    "Cinder",
+    "Cosmos",
+    "Mushroom",
+    "Pixel",
+    "Holographic",
+    "Candy",
+    "Titan",
+    "Flame",
+    "Mist",
+    "Orchid",
+    "Bronze",
+    "Neptune",
+    "Glacier2",
+    "Ruby",
+    "Hazel",
+    "Moonlight",
+    "Citrus",
+    "Lagoon",
+    "Phantom",
+    "Tangerine",
+    "Electric",
+    "Sepia",
+    "Haze",
+    "Iron",
+    "Meadow",
+    "Vapor",
+    "Nordic",
+    "Velvet",
+    "Dawn",
+    "Phosphor",
+    "Noir",
+    "Wildfire",
+    "Polar",
+    "Shadow",
+    "Prism",
+    "Cacao",
+    "Starlight",
+    "Seafoam",
+    "Lapis",
+    "Spice",
+    "Matrix",
+    "Bismuth",
+    "Glow",
+    "Terra",
+    "Rift",
+    "Basalt",
+    "Wildberry"
+  },
+  Default = "Crimson",
+  Flag = "library_theme",
+  Callback = function(L_550_arg0)
+    if _G.Window then
+      _G.Window:SetTheme(L_550_arg0)
+    end
+  end
+})
+_G.ThemeSection:AddSlider({
+  Title = "Transparency",
+  Min = 0,
+  Max = 30,
+  Default = 5,
+  Flag = "library_transparency",
+  Callback = function(L_551_arg0)
+    if _G.Window then
+      _G.Window:SetTransparency(L_551_arg0 / 100)
+    end
+  end
+})
+_G.MiscSettingsSection = _G.SettingsTab:AddSection({
+  Name = "Misc",
+  Open = false
+})
+_G.MiscSettingsSection:AddDivider("ã€Œ Bypass Gameplay Paused ã€")
+_G.BypassGameplayPaused = true
+_G.MiscSettingsSection:AddToggle({
+  Title = "Bypass GameplayPaused",
+  Default = true,
+  Flag = "bypass_gameplay_paused",
+  Callback = function(L_552_arg0)
+    _G.BypassGameplayPaused = L_552_arg0
+    game:GetService("GuiService"):SetGameplayPausedNotificationEnabled(false)
+  end
+})
+_G.MiscSettingsSection:AddDivider("ã€Œ Anti Afk | Auto Rejoin ã€")
+_G.MiscSettingsSection:AddToggle({
+  Title = "Anti Afk",
+  Default = false,
+  Flag = "anti_afk_silent",
+  Callback = function(L_553_arg0)
+    _G.antiAfkSilent = L_553_arg0
+    if L_553_arg0 then
+      local L_554_ = game:GetService("Players").LocalPlayer
+      local L_555_ = game:GetService("VirtualUser")
+      _G.AntiAfkSilentConnection = L_554_.Idled:Connect(function()
+        L_555_:CaptureController()
+        local L_556_ = L_555_
+        local L_557_ = {
+          Vector2.new()
+        }
+        L_556_:ClickButton2(L_1_(L_557_))
+      end)
+      print("Anti AFK enabled")
+      return
+    end
+    if _G.AntiAfkSilentConnection then
+      _G.AntiAfkSilentConnection:Disconnect()
+      _G.AntiAfkSilentConnection = nil
+    end
+    print("Anti AFK disabled")
+  end
+})
+_G.MiscSettingsSection:AddToggle({
+  Title = "Auto Rejoin",
+  Default = false,
+  Flag = "auto_rejoin",
+  Callback = function(L_558_arg0)
+    _G.AutoRejoin = L_558_arg0
+    if L_558_arg0 then
+      _G.AutoRejoinThread = task.spawn(function()
+        while _G.AutoRejoin do
+          if game:GetService("CoreGui"):FindFirstChild("RobloxPromptGui") then
+            local L_559_ = game:GetService("CoreGui").RobloxPromptGui:FindFirstChild("promptOverlay")
+            if L_559_ and L_559_:FindFirstChild("ErrorPrompt") then
+              task.wait(1)
+              game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+            end
+          end
+          task.wait(1)
+        end
+      end)
+      return
+    end
+    if _G.AutoRejoinThread then
+      task.cancel(_G.AutoRejoinThread)
+      _G.AutoRejoinThread = nil
+    end
+  end
+})
+_G.MiscSettingsSection:AddDivider("ã€Œ Auto Execute ã€")
+local L_154_ = game:GetService("Players")
+L_2_[85] = false
+local L_155_ = syn and syn.queue_on_teleport
+if not L_155_ then
+  L_155_ = queue_on_teleport or fluxus and fluxus.queue_on_teleport
+end
+L_2_[86] = L_155_
+L_2_[87] = "loadstring(game:HttpGet(\"https://pastebin.com/raw/Arvy7SPc\", true))()"
+L_154_.LocalPlayer.OnTeleport:Connect(function(L_560_arg0)
+  if _G.AutoServerTools and (not L_2_[85] and L_2_[86]) then
+    L_2_[86](L_2_[87])
+  end
+end)
+_G.MiscSettingsSection:AddToggle({
+  Title = "Auto Execute",
+  Description = "Works after rejoining",
+  Default = false,
+  Flag = "auto_execute",
+  Callback = function(L_561_arg0)
+    _G.AutoServerTools = L_561_arg0
+  end
+})
+_G.ServersSection = _G.SettingsTab:AddSection({
+  Name = "Servers",
+  Open = false
+})
+_G.ServersSection:AddParagraph({
+  Title = "Place Version : " .. tostring(game.PlaceVersion),
+  Text = ""
+})
+_G.ServersSection:AddParagraph({
+  Title = "Server ID : " .. tostring(game.JobId),
+  Text = ""
+})
+_G.ServersSection:AddButton({
+  Title = "Copy Server ID",
+  Callback = function()
+    setclipboard((tostring(game.JobId)))
+  end
+})
+L_2_[88] = ""
+_G.ServersSection:AddTextBox({
+  Title = "Paste Server ID",
+  PlaceholderText = "Paste Server ID here...",
+  Default = "",
+  Flag = "enter_server_id",
+  Callback = function(L_562_arg0)
+    L_2_[88] = L_562_arg0
+  end
+})
+_G.ServersSection:AddButton({
+  Title = "Join",
+  Callback = function()
+    if L_2_[88] ~= "" then
+      local L_563_, L_564_ = pcall(function()
+        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, L_2_[88], game:GetService("Players").LocalPlayer)
+      end)
+      if not L_563_ then
+        warn("Join failed:", L_564_)
+        return
+      end
+    else
+      warn("Server ID is empty!")
+    end
+  end
+})
+_G.ServersSection:AddDivider("ã€Œ Rejoin | Server Hop ã€")
+_G.ServersSection:AddButton({
+  Title = "Rejoin Server",
+  Callback = function()
+    local L_565_, L_566_ = pcall(function()
+      game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+    end)
+    if not L_565_ then
+      warn("Rejoin failed:", L_566_)
+    end
+  end
+})
+_G.ServersSection:AddButton({
+  Title = "Server Hop",
+  Callback = function()
+    local L_567_, L_568_ = pcall(function()
+      local L_569_ = game.PlaceId
+      local L_570_ = ""
+      local L_571_ = 1
+      while L_571_ <= 3 do
+        if (function()
+          local L_572_ = if L_570_ ~= "" then game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. L_569_ .. "/servers/Public?sortOrder=Asc&limit=100&cursor=" .. L_570_)) else game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. L_569_ .. "/servers/Public?sortOrder=Asc&limit=100"))
+          if L_572_ and L_572_.data then
+            for L_574_forvar0, L_575_forvar1 in pairs(L_572_.data) do
+              if tonumber(L_575_forvar1.maxPlayers) > tonumber(L_575_forvar1.playing) and L_575_forvar1.id ~= game.JobId then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(L_569_, L_575_forvar1.id, game.Players.LocalPlayer)
+                return true
+              end
+            end
+            local L_573_ = L_572_.nextPageCursor
+          end
+          return false
+        end)() then
+          return
+        end
+        L_571_ += 1
+        task.wait(2)
+      end
+    end)
+    if not L_567_ then
+      warn("Server hop failed:", L_568_)
+    end
+  end
+})
+_G.ServersSection:AddButton({
+  Title = "Join Small Server",
+  Callback = function()
+    local L_576_, L_577_ = pcall(function()
+      local L_578_ = game.PlaceId
+      local L_579_ = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. L_578_ .. "/servers/Public?sortOrder=Asc&limit=100"))
+      if L_579_ and L_579_.data then
+        local L_580_
+        local L_581_ = math.huge
+        for L_582_forvar0, L_583_forvar1 in pairs(L_579_.data) do
+          if L_583_forvar1.playing > 0 and (L_581_ > L_583_forvar1.playing and L_583_forvar1.id ~= game.JobId) then
+            L_581_ = L_583_forvar1.playing
+            L_580_ = L_583_forvar1
+          end
+        end
+        if L_580_ then
+          game:GetService("TeleportService"):TeleportToPlaceInstance(L_578_, L_580_.id, game.Players.LocalPlayer)
+          return
+        end
+        warn("No suitable server found")
+      end
+    end)
+    if not L_576_ then
+      warn("Join small server failed:", L_577_)
+    end
+  end
+})
+L_3_:Dialog({
+  Title = "Welcome!",
+  Text = "Muscle Legends Script Loaded Successfully!",
+  Options = {
+    {
+      "OK",
+      function()
+      end
+    }
+  }
+})
